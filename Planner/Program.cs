@@ -10,8 +10,14 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllersWithViews();
 
+var connectionString = builder.Configuration.GetConnectionString("PlannerDbConnectionsString");
+if (string.IsNullOrEmpty(connectionString))
+{
+    connectionString = builder.Configuration.GetConnectionString("PlannerDbConnectionsStringLaptop");
+}
+
 builder.Services.AddDbContext<PlannerDbContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("PlannerDbConnectionsString")));
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 

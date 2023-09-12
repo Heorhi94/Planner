@@ -1,0 +1,48 @@
+﻿@model List<Planner.Models.Domain.Patient>
+@{
+}
+
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Show All Patients</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    @if (Model != null && Model.Any())
+    {
+        <table class="table">
+            <thread>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Research</th>
+                    <th>Registration Day</th>
+                    <th> </th>
+                </tr>
+            </thread>
+            <tbody>
+                @foreach (var patient in Model)
+                {
+                    <tr>
+                        <td>@patient.Name</td>
+                        <td>@patient.Surname</td>
+                        <td>@patient.Research</td>
+                        <td>@patient.RegistrationDay</td>
+                        <td>
+                            <a asp-area="" asp-controller="Patient"
+                       asp-action="Edit"
+                       asp-route-id="@patient.Id">Edit</a>
+                        </td>
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No Patient found!</p>
+    }
+</div>

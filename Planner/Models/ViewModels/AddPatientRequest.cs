@@ -1,6 +1,6 @@
 ﻿namespace Planner.Models.ViewModels
 {
-    public class AddPatientReqest
+    public class AddPatientRequest
     {
         public string Name { get; set; }
         public string Surname { get; set; }

@@ -24,7 +24,7 @@ namespace Planner.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(AddPatientReqest addPatientReqest)
+        public async Task<IActionResult> Add(AddPatientRequest addPatientReqest)
         {
             //Mapping AddTagRequest to Tag domian model
             var patient = new Patient
@@ -46,6 +46,74 @@ namespace Planner.Controllers
             //use dbContext to read the tags
             var patients = await patientRepository.GetAllAsync();
             return View(patients);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            //1st method
+            // var tag = blogDbContext.Tags.Find(id);
+            // 2st method 
+            var patient = await patientRepository.GetAsync(id);
+
+            if (patient != null)
+            {
+                var editPatientRequest = new EditPatientRequest
+                {
+                    Id = patient.Id,
+                    Name = patient.Name,
+                    Surname = patient.Surname,
+                    RegistrationDay = patient.RegistrationDay,
+                    Research = patient.Research
+                };
+
+                return View(editPatientRequest);
+            }
+
+            return View(null);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPatientRequest editPatientRequest)
+        {
+            var patient = new Patient
+            {
+                Id = editPatientRequest.Id,
+                Name = editPatientRequest.Name,
+                Surname = editPatientRequest.Surname,
+                RegistrationDay = editPatientRequest.RegistrationDay,
+                Research = editPatientRequest.Research,
+            };
+
+            var updatePatient = await patientRepository.UpdateAsync(patient);
+            if (updatePatient != null)
+            {
+                //Show success
+                return RedirectToAction("List");
+            }
+            else
+            {
+
+                // Show failed
+            }
+
+            return RedirectToAction("Edit", new { id = editPatientRequest.Id });
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(EditPatientRequest editPatientRequest)
+        {
+            var deletePatient = await patientRepository.DeleteAsync(editPatientRequest.Id);
+
+            if (deletePatient != null)
+            {
+                //Show success
+                return RedirectToAction("List");
+            }
+
+            //Show failed
+            return RedirectToAction("Edit", new { id = editPatientRequest.Id });
         }
     }
 }

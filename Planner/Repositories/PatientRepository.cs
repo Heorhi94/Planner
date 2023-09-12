@@ -21,9 +21,16 @@ namespace Planner.Repositories
             return patient;
         }
 
-        public Task<Patient?> DeleteAsync(Guid id)
+        public async Task<Patient?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingPatient = await plannerDbContext.Patients.FindAsync(id);
+            if(existingPatient != null)
+            {
+                plannerDbContext.Patients.Remove(existingPatient);
+                await plannerDbContext.SaveChangesAsync();
+                return existingPatient;
+            }
+            return null;
         }
 
         public async Task<IEnumerable<Patient>> GetAllAsync()
@@ -31,14 +38,26 @@ namespace Planner.Repositories
             return await plannerDbContext.Patients.ToListAsync();
         }
 
-        public Task<Patient?> GetAsync(Guid id)
+        public async Task<Patient?> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await plannerDbContext.Patients.FirstOrDefaultAsync(x=>x.Id == id);
         }
 
-        public Task<Patient?> UpdateAsync(Patient patient)
+        public async Task<Patient?> UpdateAsync(Patient patient)
         {
-            throw new NotImplementedException();
+            var existingPatient = await plannerDbContext.Patients.FindAsync(patient.Id);
+            if(existingPatient != null)
+            {
+                existingPatient.Name = patient.Name;
+                existingPatient.Surname = patient.Surname;
+                existingPatient.Research = patient.Research;
+                existingPatient.RegistrationDay = patient.RegistrationDay;
+
+                await plannerDbContext.SaveChangesAsync();
+
+                return existingPatient;
+            }
+            return null;
         }
     }
 }
