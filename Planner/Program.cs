@@ -1,7 +1,20 @@
+
+using Microsoft.EntityFrameworkCore;
+using Planner.Data;
+using Planner.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddControllersWithViews();
+
+builder.Services.AddDbContext<PlannerDbContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("PlannerDbConnectionsString")));
+
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+
 
 var app = builder.Build();
 
