@@ -7,7 +7,6 @@
         public string Surname { get; set; }
         public DateTime RegistrationDay { get; set; }
         public string Research { get; set; }
-        public ICollection<WeekDay> WeekDays { get; set; }
 
     }
 }

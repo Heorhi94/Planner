@@ -51,9 +51,6 @@ namespace Planner.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            //1st method
-            // var tag = blogDbContext.Tags.Find(id);
-            // 2st method 
             var patient = await patientRepository.GetAsync(id);
 
             if (patient != null)

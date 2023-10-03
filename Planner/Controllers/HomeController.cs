@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Planner.Models;
+using Planner.Repositories;
 using System.Diagnostics;
 
 namespace Planner.Controllers
@@ -7,15 +8,18 @@ namespace Planner.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IWeekDayRepository weekDayRepository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IWeekDayRepository weekDayRepository)
         {
             _logger = logger;
+            this.weekDayRepository = weekDayRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var weekDay = await weekDayRepository.GetAllAsync();
+            return View(weekDay);
         }
 
         public IActionResult Privacy()

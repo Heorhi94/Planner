@@ -1,12 +1,23 @@
-﻿using Planner.Models.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using Planner.Data;
+using Planner.Models.Domain;
 
 namespace Planner.Repositories
 {
     public class WeekDayRepository : IWeekDayRepository
     {
-        public Task<WeekDay> AddAsync(WeekDay weekDay)
+        private readonly PlannerDbContext plannerDbContext;
+
+        public WeekDayRepository(PlannerDbContext plannerDbContext)
         {
-            throw new NotImplementedException();
+            this.plannerDbContext = plannerDbContext;
+        }
+
+        public async Task<WeekDay> AddAsync(WeekDay weekDay)
+        {
+            await plannerDbContext.AddAsync(weekDay);
+            await plannerDbContext.SaveChangesAsync();
+            return weekDay;
         }
 
         public Task<WeekDay?> DeleteAsync(Guid id)
@@ -14,9 +25,9 @@ namespace Planner.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<WeekDay>> GetAllAsync()
+        public async Task<IEnumerable<WeekDay>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await plannerDbContext.WeekDays.Include(x=>x.Patients).ToListAsync();
         }
 
         public Task<WeekDay?> GetAsync(Guid id)
@@ -24,9 +35,19 @@ namespace Planner.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<WeekDay?> UpdateAsync(WeekDay weekDay)
+        public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)
         {
-            throw new NotImplementedException();
+            var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
+            if (existingWeekDay != null)
+            {
+                existingWeekDay.ArriviaDay = weekDay.ArriviaDay;
+                existingWeekDay.ActivityDay = weekDay.ActivityDay;
+                existingWeekDay.QuantityMbK = weekDay.QuantityMbK;
+                await plannerDbContext.SaveChangesAsync();
+
+                return existingWeekDay;
+            }
+            return null;
         }
     }
 }

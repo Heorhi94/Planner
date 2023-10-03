@@ -1,8 +1,42 @@
-﻿@{
+﻿@model List<Planner.Models.Domain.WeekDay>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Запись лаборатории радионуклидов</h1>
-   
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-5 ry-5">
+        <div class="col-12 col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">
+                Week Day
+            </h1>
+            <p class="lead">
+                Запись пациентов на исследования в лаборатории радионуклидов.
+            </p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <img src="https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=600"
+                 alt="Week Day - Laboratorium radiations"
+                 class="d-block mx-lg-auto img-fluid" width="300" />
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            @if (Model != null && Model.Any())
+            {
+                @foreach (var weekDay in Model)
+                {
+                    <div class="mb-5 bg-light box-shadow">
+                        <h2 class="mb-2"> @weekDay.Day.ToShortDateString() </h2>
+                    </div>
+
+                }
+            }
+
+        </div>
+    </div>
 </div>

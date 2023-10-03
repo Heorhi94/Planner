@@ -12,7 +12,7 @@ using Planner.Data;
 namespace Planner.Migrations
 {
     [DbContext(typeof(PlannerDbContext))]
-    [Migration("20230831173002_Initial Migration")]
+    [Migration("20231003152812_Initial Migration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -24,21 +24,6 @@ namespace Planner.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("PatientWeekDay", b =>
-                {
-                    b.Property<Guid>("PatientsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("WeekDaysId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PatientsId", "WeekDaysId");
-
-                    b.HasIndex("WeekDaysId");
-
-                    b.ToTable("PatientWeekDay");
-                });
 
             modelBuilder.Entity("Planner.Models.Domain.Patient", b =>
                 {
@@ -61,7 +46,12 @@ namespace Planner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("WeekDayId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("WeekDayId");
 
                     b.ToTable("Patients");
                 });
@@ -75,8 +65,14 @@ namespace Planner.Migrations
                     b.Property<int>("ActivityDay")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ArriviaDay")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("Day")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("NumberOfPatients")
+                        .HasColumnType("int");
 
                     b.Property<double>("QuantityMbK")
                         .HasColumnType("float");
@@ -92,19 +88,16 @@ namespace Planner.Migrations
                     b.ToTable("WeekDays");
                 });
 
-            modelBuilder.Entity("PatientWeekDay", b =>
+            modelBuilder.Entity("Planner.Models.Domain.Patient", b =>
                 {
-                    b.HasOne("Planner.Models.Domain.Patient", null)
-                        .WithMany()
-                        .HasForeignKey("PatientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Planner.Models.Domain.WeekDay", null)
-                        .WithMany()
-                        .HasForeignKey("WeekDaysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Patients")
+                        .HasForeignKey("WeekDayId");
+                });
+
+            modelBuilder.Entity("Planner.Models.Domain.WeekDay", b =>
+                {
+                    b.Navigation("Patients");
                 });
 #pragma warning restore 612, 618
         }

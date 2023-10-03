@@ -20,6 +20,7 @@ builder.Services.AddDbContext<PlannerDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IWeekDayRepository, WeekDayRepository>();
 
 
 var app = builder.Build();

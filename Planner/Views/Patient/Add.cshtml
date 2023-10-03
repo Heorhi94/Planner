@@ -22,7 +22,7 @@
 
         <div class="mb-3">
             <label class="form-label">Registration day</label>
-            <input type="date" class="form-control" id="registrationDay" asp-for="RegistrationDay" />
+            <input type="date" class="form-control" id="registrationDay" asp-for="RegistrationDay" min="@DateTime.Now.ToString("yyyy-MM-dd")" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </div>
 
         <div class="mb-3">
@@ -37,4 +37,6 @@
     </form>
 
 </div>
+
+
 
