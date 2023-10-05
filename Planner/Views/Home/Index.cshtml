@@ -22,6 +22,16 @@
     </div>
 </div>
 
+<style>
+    .no-underline-hover {
+        text-decoration: none; /* Убрать подчеркивание текста */
+        transition: font-size 0.2s; /* Добавить анимацию изменения размера шрифта */
+    }
+
+        .no-underline-hover:hover {
+            font-size: 1.1em; /* Увеличить размер шрифта при наведении */
+        }
+</style>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -33,7 +43,16 @@
                     <div class="mb-5 bg-light box-shadow">
                         <h2 class="mb-2"> @weekDay.Day.ToShortDateString() </h2>
                     </div>
-
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark">
+                            <a class="text-white no-underline-hover"
+                               asp-area=""
+                               asp-controller="Patient"
+                               asp-action="Add">
+                                Add Patient
+                            </a>
+                           </button>
+                    </div>
                 }
             }
 
