@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Planner.Models.Domain;
 using Planner.Models.ViewModels;
 using Planner.Repositories;
+using Planner.Service;
 
 namespace Planner.Controllers
 {
@@ -11,7 +12,7 @@ namespace Planner.Controllers
     {
         private readonly IWeekDayRepository weekDayRepository;
         private readonly IPatientRepository patientRepository;
-
+        CalculationMBK calculationMBK = new CalculationMBK();
         public WeekDayController(IWeekDayRepository weekDayRepository, IPatientRepository patientRepository)
         {
             this.weekDayRepository = weekDayRepository;
@@ -39,12 +40,15 @@ namespace Planner.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(AddWeekDayRequest addWeekDayRequest)
+        public async Task<IActionResult> Add(AddWeekDayRequest addWeekDayRequest,Generator generator)
         {
+           
             var weekDay = new WeekDay
             {
-                Day = addWeekDayRequest.Day
+                Day = addWeekDayRequest.Day,
             };
+            weekDay.ActivityDay = calculationMBK.ArrivalDay(addWeekDayRequest.Day);
+            weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
             await weekDayRepository.AddAsync(weekDay);
             return RedirectToAction("List");
         }
