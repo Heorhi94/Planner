@@ -12,15 +12,15 @@ using Planner.Data;
 namespace Planner.Migrations
 {
     [DbContext(typeof(PlannerDbContext))]
-    [Migration("20231011104041_Initial Migration")]
-    partial class InitialMigration
+    [Migration("20231017131029_Update")]
+    partial class Update
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -46,7 +46,7 @@ namespace Planner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("WeekDayId")
+                    b.Property<Guid>("WeekDayId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -90,9 +90,13 @@ namespace Planner.Migrations
 
             modelBuilder.Entity("Planner.Models.Domain.Patient", b =>
                 {
-                    b.HasOne("Planner.Models.Domain.WeekDay", null)
+                    b.HasOne("Planner.Models.Domain.WeekDay", "WeekDays")
                         .WithMany("Patients")
-                        .HasForeignKey("WeekDayId");
+                        .HasForeignKey("WeekDayId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WeekDays");
                 });
 
             modelBuilder.Entity("Planner.Models.Domain.WeekDay", b =>

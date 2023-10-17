@@ -1,4 +1,6 @@
-﻿namespace Planner.Models.ViewModels
+﻿using Planner.Models.Domain;
+
+namespace Planner.Models.ViewModels
 {
     public class AddPatientRequest
     {
@@ -6,5 +8,9 @@
         public string Surname { get; set; }
         public DateTime RegistrationDay { get; set; }
         public string Research { get; set; }
+
+        public Guid PatientWeekDayId { get; set; }
+
+
     }
 }

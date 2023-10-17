@@ -11,7 +11,7 @@ namespace Planner.Service
 
         // private readonly DateTime dayStart = new DateTime(03-10-2023);
 
-        public Dictionary<string, double> RadiationsDay = new Dictionary<string, double>
+        private readonly Dictionary<string, double> RadiationsDay = new Dictionary<string, double>
         {
             {"0", 10000 },
             {"1", 7772 },
@@ -30,7 +30,7 @@ namespace Planner.Service
             {"14", 293 }
         };
 
-        public List<int> valueResearch = new List<int>
+        private List<int> valueResearch = new List<int>
        {
            {0 },
            {0 },
@@ -78,14 +78,14 @@ namespace Planner.Service
             }
           return iloscMBK;
         }
-
+        //Zrobione
         public int ArrivalDay(DateTime day)
         {
             DateTime dayStart = new DateTime(2023, 10, 3);
             DateTime targetDate = dayStart;
 
             int numberOfDays = 0;
-            int daysToAdd = 14; // Co drugi wtorek to 14 dni
+            int daysToAdd = 14;
             while (targetDate < day)
             {
                 targetDate = targetDate.AddDays(1);
@@ -101,6 +101,7 @@ namespace Planner.Service
             return numberOfDays;
         }
 
+        //Zrobione
         public double QuantityMbK(int day)
         {
             string key = day.ToString();
@@ -109,8 +110,7 @@ namespace Planner.Service
             {
                 return RadiationsDay[key];
             }
-
-            return 0; // Zwracamy 0, jeśli nie znaleziono wartości dla danego dnia
+            return 0; 
         }
 
     }

@@ -20,19 +20,40 @@ namespace Planner.Repositories
             return weekDay;
         }
 
-        public Task<WeekDay?> DeleteAsync(Guid id)
+
+        public async Task<WeekDay?> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(id);
+            
+            if (existingWeekDay != null)
+            {
+                var patientsForDay = await plannerDbContext.Patients
+              .Where(patient => patient.WeekDayId == existingWeekDay.Id)
+              .ToListAsync();
+                if (patientsForDay.Count > 0)
+                {
+                    foreach (var patient in patientsForDay)
+                    {
+                        plannerDbContext.Patients.Remove(patient);
+                    }
+                }
+                plannerDbContext.WeekDays.Remove(existingWeekDay);
+                await plannerDbContext.SaveChangesAsync();
+                return existingWeekDay;
+            }
+            return null; 
         }
 
         public async Task<IEnumerable<WeekDay>> GetAllAsync()
         {
-            return await plannerDbContext.WeekDays.Include(x=>x.Patients).ToListAsync();
+            return await plannerDbContext.WeekDays
+           .Include(patient => patient.Patients) 
+           .ToListAsync();
         }
 
-        public Task<WeekDay?> GetAsync(Guid id)
+        public async Task<WeekDay?> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await plannerDbContext.WeekDays.Include(x => x.Patients).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)

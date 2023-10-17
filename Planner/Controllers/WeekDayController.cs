@@ -25,12 +25,10 @@ namespace Planner.Controllers
               var weekDay = await weekDayRepository.GetAllAsync();
               return View(weekDay);
           }*/
-        public async Task<IActionResult> List()
+        public IActionResult List()
         {
             return RedirectToAction("Index", "Home");
         }
-
-
 
         [HttpGet]
         public IActionResult Add()
@@ -40,43 +38,54 @@ namespace Planner.Controllers
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(AddWeekDayRequest addWeekDayRequest,Generator generator)
+        public async Task<IActionResult> Add(AddWeekDayRequest addWeekDayRequest, Generator generator)
         {
-           
             var weekDay = new WeekDay
             {
                 Day = addWeekDayRequest.Day,
             };
+            var added = await weekDayRepository.GetAllAsync();
+            foreach(var add in added)
+            {
+                if(add.Day == addWeekDayRequest.Day)
+                {
+                    return RedirectToAction("List");
+                }
+            }
             weekDay.ActivityDay = calculationMBK.ArrivalDay(addWeekDayRequest.Day);
             weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
             await weekDayRepository.AddAsync(weekDay);
             return RedirectToAction("List");
         }
 
-        [HttpGet]
+
+       /* [HttpGet]
         public async Task<IActionResult> Edit (Guid id)
         {
-            var patients = await patientRepository.GetAllAsync();
             var weekDay = await weekDayRepository.GetAsync(id);
+            
             if (weekDay != null)
             {
                 var editWeekDay = new EditWeekDayRequest
                 {
+                    Id = weekDay.Id,
                     ArriviaDay = weekDay.ArriviaDay,
                     ActivityDay = weekDay.ActivityDay,
                     QuantityMbK = weekDay.QuantityMbK,
                     RegisteredPatients = weekDay.RegisteredPatients,
-                    Patients = patients.Select(x => new SelectListItem { Text = x.Name + " " + x.Surname + " " + x.Research, Value = x.Id.ToString() })
-                };
+                    };
+                var patients = await patientRepository.GetPatientForDay(weekDay.Day);
+                editWeekDay.Patients = patients;
 
-               
+
                 return View(editWeekDay);
               
             }
             return View(null);
         }
-
-        [HttpPost]
+*/
+     /*   [HttpPost]
+       // [ActionName("Edit")]
         public async Task<IActionResult> Edit(EditWeekDayRequest editWeekDayRequest)
         {
 
@@ -90,18 +99,9 @@ namespace Planner.Controllers
                 RegisteredPatients = editWeekDayRequest.RegisteredPatients,
                 RemainingPatients = editWeekDayRequest.RemainingPatients
             };
-
-            //Map Tags from Selected tags
-            var selectedPtients = new List<Patient>();
-            foreach (var selectedPatientId in editWeekDayRequest.SelectPatients)
-            {
-                var selectedPatientIdAsGuid = Guid.Parse(selectedPatientId);
-                var existingPatient = await patientRepository.GetAsync(selectedPatientIdAsGuid);
-                if (existingPatient != null)
-                {
-                    selectedPtients.Remove(existingPatient);
-                }
-            }
+           
+            var patients = await patientRepository.GetPatientForDay(weekDay.Day);
+            editWeekDayRequest.Patients = patients;
             var updateWeekDay = await weekDayRepository.UpdateAsync(weekDay);
             if (updateWeekDay != null)
             {
@@ -115,7 +115,23 @@ namespace Planner.Controllers
             }
 
             return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
-        }
+        }*/
+/*
+        [HttpPost]
+        public async Task<IActionResult> Delete(EditWeekDayRequest editWeekDayRequest)
+        {
+            var deleteweekDay = await weekDayRepository.DeleteAsync(editWeekDayRequest.Id);
+          //  var patients = await patientRepository.GetPatientForDay(editWeekDayRequest.Day);
+            var DeletePatient = await patientRepository.DeletePatientsForDay(editWeekDayRequest.Day);
+            if (deleteweekDay != null)
+            {
+                //Show success
+                return RedirectToAction("List");
+            }
 
+            //Show failed
+            return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
+        }
+*/
     }
 }

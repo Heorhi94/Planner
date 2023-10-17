@@ -29,7 +29,7 @@
                         <td>@patient.Name</td>
                         <td>@patient.Surname</td>
                         <td>@patient.Research</td>
-                        <td>@patient.RegistrationDay</td>
+                        <td>@patient.RegistrationDay.ToShortDateString()</td>
                         <td>
                             <a asp-area="" asp-controller="Patient"
                        asp-action="Edit"

@@ -1,5 +1,6 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Planner.Models.Domain;
 using Planner.Models.ViewModels;
 using Planner.Repositories;
@@ -9,42 +10,57 @@ namespace Planner.Controllers
     public class PatientController : Controller
     {
         private readonly IPatientRepository patientRepository;
+        private readonly IWeekDayRepository weekDayRepository;
 
-        public PatientController(IPatientRepository patientRepository)
+        public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository)
         {
             this.patientRepository = patientRepository;
+            this.weekDayRepository = weekDayRepository;
         }
-
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(Guid weekDayId)
         {
-            return View();
+            var addPatientRequest = new AddPatientRequest
+            {
+                PatientWeekDayId = weekDayId
+            };
+
+            return View(addPatientRequest);
         }
+
+
 
         [HttpPost]
         [ActionName("Add")]
-        public async Task<IActionResult> Add(AddPatientRequest addPatientReqest)
-        {
-            //Mapping AddTagRequest to Tag domian model
+        public async Task<IActionResult> Add(AddPatientRequest addPatientRequest)
+        {       
+            var weekDay = await weekDayRepository.GetAsync(addPatientRequest.PatientWeekDayId);
+            Guid id = new Guid();
             var patient = new Patient
             {
-                Name = addPatientReqest.Name,
-                Surname = addPatientReqest.Surname,
-                RegistrationDay = addPatientReqest.RegistrationDay,
-                Research = addPatientReqest.Research
+                Id = id,
+                WeekDayId = addPatientRequest.PatientWeekDayId,
+                Name = addPatientRequest.Name,
+                Surname = addPatientRequest.Surname,
+                RegistrationDay = addPatientRequest.RegistrationDay,
+                Research = addPatientRequest.Research,
             };
+            weekDay.Day = addPatientRequest.RegistrationDay;
             await patientRepository.AddAsync(patient);
 
             return RedirectToAction("List");
         }
 
+
+
+
         [HttpGet]
         [ActionName("List")]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(Guid Id)
         {
             //use dbContext to read the tags
-            var patients = await patientRepository.GetAllAsync();
+            var patients = await patientRepository.GetAllAsync(Id);
             return View(patients);
         }
 
@@ -98,7 +114,6 @@ namespace Planner.Controllers
         }
 
         [HttpPost]
-
         public async Task<IActionResult> Delete(EditPatientRequest editPatientRequest)
         {
             var deletePatient = await patientRepository.DeleteAsync(editPatientRequest.Id);

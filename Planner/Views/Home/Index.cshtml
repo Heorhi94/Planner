@@ -44,17 +44,52 @@
                         <h2 class="mb-2"> @weekDay.Day.ToShortDateString() </h2>
                         <h2 class="mb-2"> @weekDay.ActivityDay </h2>
                         <h2 class="mb-2"> @weekDay.QuantityMbK </h2>
-                    </div>
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-dark">
+
+                        <div class="container py-5">
+                            @if(weekDay.Patients != null)
+                            {
+                                @foreach (var people in weekDay.Patients)
+                                {
+                                    <table class="table">
+                                        <thread>
+                                            <tr>
+                                                <th>@people.Name</th>
+                                                <th>@people.Surname</th>
+                                                <th>@people.Research</th>
+                                            </tr>
+                                        </thread>
+                                    </table>
+                                }
+                            }
+                            else
+                            {
+                                 <p>No Patient found!</p>
+                            }
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark">
+                                <a class="text-white no-underline-hover"
+                                   asp-area=""
+                                   asp-controller="Patient"
+                                   asp-action="Add"
+                                   asp-route-weekDayId="@weekDay.Id">
+                                    Add Patient
+                                </a>
+                            </button>
+                            <button type="submit" class="btn btn-danger ms-2">
                             <a class="text-white no-underline-hover"
-                               asp-area=""
-                               asp-controller="Patient"
-                               asp-action="Add">
-                                Add Patient
+                            asp-area=""
+                            asp-controller="WeekDay"
+                            asp-action="Edit"
+                            asp-route-id="@weekDay.Id">
+                                Edit Day
                             </a>
-                           </button>
+                            </button>
+
+                        </div>
                     </div>
+                   
                 }
             }
 

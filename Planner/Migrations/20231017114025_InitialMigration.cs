@@ -38,22 +38,24 @@ namespace Planner.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Research = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WeekDayId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    PatientWeekDayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WeekDaysId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Patients_WeekDays_WeekDayId",
-                        column: x => x.WeekDayId,
+                        name: "FK_Patients_WeekDays_WeekDaysId",
+                        column: x => x.WeekDaysId,
                         principalTable: "WeekDays",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patients_WeekDayId",
+                name: "IX_Patients_WeekDaysId",
                 table: "Patients",
-                column: "WeekDayId");
+                column: "WeekDaysId");
         }
 
         /// <inheritdoc />

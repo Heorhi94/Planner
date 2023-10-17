@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Planner.Data;
 
@@ -11,9 +12,11 @@ using Planner.Data;
 namespace Planner.Migrations
 {
     [DbContext(typeof(PlannerDbContext))]
-    partial class PlannerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231017114025_InitialMigration")]
+    partial class InitialMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +35,9 @@ namespace Planner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("PatientWeekDayId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime>("RegistrationDay")
                         .HasColumnType("datetime2");
 
@@ -43,12 +49,12 @@ namespace Planner.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("WeekDayId")
+                    b.Property<Guid>("WeekDaysId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WeekDayId");
+                    b.HasIndex("WeekDaysId");
 
                     b.ToTable("Patients");
                 });
@@ -89,7 +95,7 @@ namespace Planner.Migrations
                 {
                     b.HasOne("Planner.Models.Domain.WeekDay", "WeekDays")
                         .WithMany("Patients")
-                        .HasForeignKey("WeekDayId")
+                        .HasForeignKey("WeekDaysId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

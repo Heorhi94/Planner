@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Planner.Models.Domain;
 
 namespace Planner.Models.ViewModels
 {
@@ -12,7 +13,7 @@ namespace Planner.Models.ViewModels
         public int RegisteredPatients { get; set; }
         public int RemainingPatients { get; set; }
         public int NumberOfPatients { get; set; }
-        public IEnumerable<SelectListItem> Patients { get; set; }
-        public string[] SelectPatients { get; set; } = Array.Empty<string>();
+        public ICollection<Patient> Patients { get; set; }
+       // public string[] SelectPatients { get; set; } = Array.Empty<string>();
     }
 }
