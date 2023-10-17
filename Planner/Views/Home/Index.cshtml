@@ -73,10 +73,13 @@
                                    asp-area=""
                                    asp-controller="Patient"
                                    asp-action="Add"
-                                   asp-route-weekDayId="@weekDay.Id">
+                                   asp-route-weekDayId="@weekDay.Id"
+                                   asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")">
                                     Add Patient
                                 </a>
                             </button>
+
+
                             <button type="submit" class="btn btn-danger ms-2">
                             <a class="text-white no-underline-hover"
                             asp-area=""

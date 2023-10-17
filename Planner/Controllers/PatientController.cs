@@ -19,34 +19,32 @@ namespace Planner.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(Guid weekDayId)
+        public IActionResult Add(DateTime registrationDay, Guid weekDayId)
         {
+          //  var weekDay = await weekDayRepository.GetAsync(weekDayId);
             var addPatientRequest = new AddPatientRequest
             {
-                PatientWeekDayId = weekDayId
+                PatientWeekDayId = weekDayId,
+                RegistrationDay = registrationDay
             };
 
             return View(addPatientRequest);
         }
 
-
-
         [HttpPost]
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddPatientRequest addPatientRequest)
         {       
-            var weekDay = await weekDayRepository.GetAsync(addPatientRequest.PatientWeekDayId);
             Guid id = new Guid();
             var patient = new Patient
             {
                 Id = id,
                 WeekDayId = addPatientRequest.PatientWeekDayId,
+                RegistrationDay = addPatientRequest.RegistrationDay,
                 Name = addPatientRequest.Name,
                 Surname = addPatientRequest.Surname,
-                RegistrationDay = addPatientRequest.RegistrationDay,
                 Research = addPatientRequest.Research,
             };
-            weekDay.Day = addPatientRequest.RegistrationDay;
             await patientRepository.AddAsync(patient);
 
             return RedirectToAction("List");
