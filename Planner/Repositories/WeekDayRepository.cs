@@ -48,13 +48,24 @@ namespace Planner.Repositories
         public async Task<IEnumerable<WeekDay>> GetAllAsync()
         {
             return await plannerDbContext.WeekDays
-           .Include(patient => patient.Patients) 
-           .ToListAsync();
+                .Where(weekDay => weekDay.Day >= DateTime.Today)
+                .OrderBy(weekDay => weekDay.Day)
+               .Include(patient => patient.Patients) 
+               .ToListAsync();
         }
 
         public async Task<WeekDay?> GetAsync(Guid id)
         {
             return await plannerDbContext.WeekDays.Include(x => x.Patients).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<IEnumerable<WeekDay>> GetHistoryAsync()
+        {
+            return await plannerDbContext.WeekDays
+               .Where(weekDay => weekDay.Day < DateTime.Today)
+               .OrderBy(weekDay => weekDay.Day)
+              .Include(patient => patient.Patients)
+              .ToListAsync();
         }
 
         public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)

@@ -9,5 +9,7 @@ namespace Planner.Repositories
         Task<WeekDay> AddAsync(WeekDay weekDay);
         Task<WeekDay?> UpdateAsync(WeekDay weekDay);
         Task<WeekDay?> DeleteAsync(Guid id);
+
+        Task<IEnumerable<WeekDay>> GetHistoryAsync();
     }
 }

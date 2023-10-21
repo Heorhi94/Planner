@@ -11,13 +11,13 @@
 <div class="container py-5">
     <form method="post">
         <div class="mb-3">
-            <label class="form-label">Id</label>
-            <input type="text" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
+           @* <label class="form-label">Id</label>*@
+            <input type="hidden" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
         </div>
 
         <div class="mb-3">
             <label class="form-label">Day</label>
-            <input type="text" name="registrationDay" value="@Model.RegistrationDay" asp-for="RegistrationDay" readonly />
+            <input type="text" name="registrationDay" value="@Model.RegistrationDay.ToShortDateString()" asp-for="RegistrationDay" readonly />
         </div>
 
 

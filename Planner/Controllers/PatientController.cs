@@ -39,7 +39,6 @@ namespace Planner.Controllers
         public async Task<IActionResult> Add(AddPatientRequest addPatientRequest)
         {       
             Guid id = new Guid();
-            CalculationMBK calculationMBK = new CalculationMBK();
             var patient = new Patient
             {
                 Id = id,
@@ -51,7 +50,7 @@ namespace Planner.Controllers
             };
             await patientRepository.AddAsync(patient);
             var updWeekDay = await weekDayRepository.GetAsync(patient.WeekDayId);
-            updWeekDay.Patients.Add(patient);
+            //updWeekDay.Patients.Add(patient);
              await weekDayRepository.UpdateAsync(updWeekDay);
             
 
@@ -71,7 +70,8 @@ namespace Planner.Controllers
                     Name = patient.Name,
                     Surname = patient.Surname,
                     RegistrationDay = patient.RegistrationDay,
-                    Research = patient.Research
+                    Research = patient.Research,
+                    PatientWeekDayId = patient.WeekDayId
                 };
 
                 return View(editPatientRequest);
@@ -114,6 +114,8 @@ namespace Planner.Controllers
 
             if (deletePatient != null)
             {
+                var updWeekDay = await weekDayRepository.GetAsync(editPatientRequest.PatientWeekDayId);
+                await weekDayRepository.UpdateAsync(updWeekDay);
                 return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Edit", new { id = editPatientRequest.Id });

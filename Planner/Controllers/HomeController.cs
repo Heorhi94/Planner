@@ -23,6 +23,12 @@ namespace Planner.Controllers
             return View(weekDay);
         }
 
+        public async Task<IActionResult> History()
+        {
+            var weekDay = await weekDayRepository.GetHistoryAsync();
+            return View(weekDay);
+        }
+
         public IActionResult Privacy()
         {
             return View();

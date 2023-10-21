@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Planner</title>
+    <title>@ViewData["Title"] - Dispaly All Day</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Planner.styles.css" asp-append-version="true" />
+  @*  <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Planner.styles.css" asp-append-version="true" />*@
     <link href='https://cdn.jsdelivr.net/npm/froala-editor@latest/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
     <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@latest/js/froala_editor.pkgd.min.js'></script>
 </head>
@@ -14,7 +14,7 @@
     <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Blog.Web</a>
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Laboratory Radionuclids</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -29,14 +29,6 @@
                             Admin
                         </a>
                         <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item"
-                                   asp-area=""
-                                   asp-controller="Patient"
-                                   asp-action="Add">
-                                    Add Patient
-                                </a>
-                            </li>
                            <li>
                                 <a class="dropdown-item"
                                    asp-area=""
@@ -45,23 +37,14 @@
                                     Add Day
                                 </a>
                             </li>
-                                 <li>
-                                <a class="dropdown-item"
-                                   asp-area=""
-                                   asp-controller="Patient"
-                                   asp-action="List">
-                                    List PAtient
-                                </a>
-                            </li>
-                                @* <li>
-                                <a class="dropdown-item"
-                                   asp-area=""
-                                   asp-controller="AdminBlogPosts"
-                                   asp-action="List">
-                                    All Blog Posts
-                                </a>
-                            </li>
-                            *@
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-area=""
+                                       asp-controller="Home"
+                                       asp-action="History">
+                                        History Registred
+                                    </a>
+                                </li>
                         </ul>
                     </li>
                 </ul>
@@ -74,69 +57,6 @@
             @RenderBody()
         </main>
     </div>
-
-
-   @* <div class="container py-5 d-flex justify-content-center align-items-center border">
-        <div class="row">
-            <div class="col-md-12">
-                <form method="get" id="monday" class="border p-4 rounded ">
-                    <label class="form-label mb-2 text-center d-block fw-bold" style="font-size: 18px;" id="date">Дата</label>
-                    <label class="form-label mb-2 text-center d-block fw-bold" style="font-size: 18px;" id="date">День активности</label>
-                    <label class="form-label mb-2 text-center d-block fw-bold" style="font-size: 18px;" id="date">Кол-во МБК</label>
-                    <label class="form-label mb-2 text-center d-block fw-bold" style="font-size: 18px;" id="date">Количество пациентов</label>
-                    <label class="form-label mb-0 text-center d-block fw-bold" style="font-size: 18px;" id="date">Остаток MBK</label>
-                    <label class="form-label mb-2 text-center d-block fw-bold" style="font-size: 18px;" id="date">Свободных мест</label>
-                    <label class="form-label mb-0 text-center d-block fw-bold" style="font-size: 18px;" id="date">Список пациентов</label>
-                </form>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <form method="get" id="monday" class="border p-2">
-                <label class="form-label border mx-2" id="date">Дата</label>
-                <label class="form-label border mx-2" id="date">День активности</label>
-                <label class="form-label border mx-2" id="date">кол-во МБК</label>
-                <label class="form-label border mx-2" id="date">Количество пациентов</label>
-                <label class="form-label border mx-2" id="date">Свободных мест</label>
-                <label class="form-label border mx-2" id="date">List пациентов</label>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <form method="get" id="monday" class="border p-2">
-                <label class="form-label border mx-2" id="date">Дата</label>
-                <label class="form-label border mx-2" id="date">День активности</label>
-                <label class="form-label border mx-2" id="date">кол-во МБК</label>
-                <label class="form-label border mx-2" id="date">Количество пациентов</label>
-                <label class="form-label border mx-2" id="date">Свободных мест</label>
-                <label class="form-label border mx-2" id="date">List пациентов</label>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <form method="get" id="monday" class="border p-2">
-                <label class="form-label border mx-2" id="date">Дата</label>
-                <label class="form-label border mx-2" id="date">День активности</label>
-                <label class="form-label border mx-2" id="date">кол-во МБК</label>
-                <label class="form-label border mx-2" id="date">Количество пациентов</label>
-                <label class="form-label border mx-2" id="date">Свободных мест</label>
-                <label class="form-label border mx-2" id="date">List пациентов</label>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <form method="get" id="monday" class="border p-2">
-                <label class="form-label border mx-2" id="date">Дата</label>
-                <label class="form-label border mx-2" id="date">День активности</label>
-                <label class="form-label border mx-2" id="date">кол-во МБК</label>
-                <label class="form-label border mx-2" id="date">Количество пациентов</label>
-                <label class="form-label border mx-2" id="date">Свободных мест</label>
-                <label class="form-label border mx-2" id="date">List пациентов</label>
-            </form>
-        </div>
-     </div>*@
-
-
-
-
-  
-
 
     <footer class="border-top footer text-muted">
         <div class="container">

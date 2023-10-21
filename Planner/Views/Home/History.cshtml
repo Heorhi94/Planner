@@ -11,7 +11,7 @@
                 Laboratorium Radionuclids
             </h1>
             <p class="lead">
-                Registering patients
+                History patients
             </p>
         </div>
         <div class="col-12 col-lg-6">
@@ -22,16 +22,6 @@
     </div>
 </div>
 
-<style>
-    .no-underline-hover {
-        text-decoration: none; /* Убрать подчеркивание текста */
-        transition: font-size 0.2s; /* Добавить анимацию изменения размера шрифта */
-    }
-
-        .no-underline-hover:hover {
-            font-size: 1.1em; /* Увеличить размер шрифта при наведении */
-        }
-</style>
 
 <div class="container">
     <div class="row justify-content-center">
@@ -47,8 +37,9 @@
                             <h2 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h2>
                             <h2 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h2>
 
-                            <div class="container py-5">Patients
-                                @if(weekDay.Patients != null)
+                            <div class="container py-5">
+                                Patients
+                                @if (weekDay.Patients != null)
                                 {
                                     @foreach (var people in weekDay.Patients)
                                     {
@@ -58,7 +49,7 @@
                                                     <th><small>@people.Name</small></th>
                                                     <th><small>@people.Surname</small></th>
                                                     <th><small>@people.Research</small></th>
-                                               
+
                                                 </tr>
                                             </thread>
                                         </table>
@@ -66,38 +57,12 @@
                                 }
                                 else
                                 {
-                                     <p>No Patient found!</p>
+                                    <p>No Patient found!</p>
                                 }
-                            </div>
-
-                            <div class="mb-3 small">
-                                <button type="submit" class="btn btn-dark">
-                                    <a class="text-white no-underline-hover"
-                                       asp-area=""
-                                       asp-controller="Patient"
-                                       asp-action="Add"
-                                       asp-route-weekDayId="@weekDay.Id"
-                                       asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")">
-                                        Add Patient
-                                    </a>
-                                </button>
-
-
-                                <button type="submit" class="btn btn-danger ms-2">
-                                <a class="text-white no-underline-hover"
-                                asp-area=""
-                                asp-controller="WeekDay"
-                                asp-action="Edit"
-                                asp-route-weekDayId="@weekDay.Id"
-                                >
-                                    Edit Day
-                                </a>
-                                </button>
-
                             </div>
                         </div>
                     </div>
-                   
+
                 }
             }
 
