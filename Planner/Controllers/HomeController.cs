@@ -5,6 +5,7 @@ using System.Diagnostics;
 
 namespace Planner.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,7 +16,7 @@ namespace Planner.Controllers
             _logger = logger;
             this.weekDayRepository = weekDayRepository;
         }
-
+        
         public async Task<IActionResult> Index()
         {
             var weekDay = await weekDayRepository.GetAllAsync();

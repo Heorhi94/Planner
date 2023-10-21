@@ -8,6 +8,7 @@ namespace Planner.Models.ViewModels
         public DateTime ArriviaDay { get; set; }
         public int ActivityDay { get; set; }
         public double QuantityMbK { get; set; }
+        public double RemainderMBK { get; set; }
         public int RegisteredPatients { get; set; }
         public int RemainingPatients { get; set; }
         public int NumberOfPatients { get; set; }

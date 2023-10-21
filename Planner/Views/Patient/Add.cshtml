@@ -33,7 +33,13 @@
 
         <div class="mb-3">
             <label class="form-label">Research</label>
-            <input type="text" class="form-control" id="research" asp-for="Research" />
+            <select class="form-select" id="research" asp-for="Research">
+                <option value="">-- Select Research --</option>
+                @foreach (var researchName in Model.NameResearchList)
+                {
+                    <option value="@researchName">@researchName</option>
+                }
+            </select>
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-dark">Submit</button>

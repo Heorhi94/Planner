@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Planner.Data;
 using Planner.Models.Domain;
+using Planner.Service;
 
 namespace Planner.Repositories
 {
@@ -58,12 +59,16 @@ namespace Planner.Repositories
 
         public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)
         {
+            CalculationMBK calculationMBK = new CalculationMBK();
             var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
             if (existingWeekDay != null)
             {
                 existingWeekDay.ArriviaDay = weekDay.ArriviaDay;
                 existingWeekDay.ActivityDay = weekDay.ActivityDay;
                 existingWeekDay.QuantityMbK = weekDay.QuantityMbK;
+                existingWeekDay.Day = weekDay.Day;
+                existingWeekDay.RemainderMBK = calculationMBK.RemainderMBK(weekDay);
+                existingWeekDay.Patients = weekDay.Patients;
                 await plannerDbContext.SaveChangesAsync();
 
                 return existingWeekDay;

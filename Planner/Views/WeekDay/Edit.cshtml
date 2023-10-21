@@ -48,7 +48,15 @@
                                         <th>@people.Name</th>
                                         <th>@people.Surname</th>
                                         <th>@people.Research</th>
-                                        <th> </th>
+                                        <th>
+                                            <a asp-area=""
+                                               asp-controller="Patient"
+                                               asp-action="Edit"
+                                               asp-route-weekDayId="@people.Id"
+                                               asp-route-day="@people.RegistrationDay">
+                                                Edit
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thread>
                                 <tbody>

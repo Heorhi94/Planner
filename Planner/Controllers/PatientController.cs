@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Planner.Models.Domain;
 using Planner.Models.ViewModels;
 using Planner.Repositories;
+using Planner.Service;
 
 namespace Planner.Controllers
 {
+    
     public class PatientController : Controller
     {
         private readonly IPatientRepository patientRepository;
@@ -21,11 +23,12 @@ namespace Planner.Controllers
         [HttpGet]
         public IActionResult Add(DateTime registrationDay, Guid weekDayId)
         {
-          //  var weekDay = await weekDayRepository.GetAsync(weekDayId);
+            var calculationMBK = new CalculationMBK();
             var addPatientRequest = new AddPatientRequest
             {
                 PatientWeekDayId = weekDayId,
-                RegistrationDay = registrationDay
+                RegistrationDay = registrationDay,
+                NameResearchList = calculationMBK.nameResearch
             };
 
             return View(addPatientRequest);
@@ -36,6 +39,7 @@ namespace Planner.Controllers
         public async Task<IActionResult> Add(AddPatientRequest addPatientRequest)
         {       
             Guid id = new Guid();
+            CalculationMBK calculationMBK = new CalculationMBK();
             var patient = new Patient
             {
                 Id = id,
@@ -46,26 +50,18 @@ namespace Planner.Controllers
                 Research = addPatientRequest.Research,
             };
             await patientRepository.AddAsync(patient);
+            var updWeekDay = await weekDayRepository.GetAsync(patient.WeekDayId);
+            updWeekDay.Patients.Add(patient);
+             await weekDayRepository.UpdateAsync(updWeekDay);
+            
 
-            return RedirectToAction("List");
-        }
-
-
-
-
-        [HttpGet]
-        [ActionName("List")]
-        public async Task<IActionResult> List(Guid Id)
-        {
-            //use dbContext to read the tags
-            var patients = await patientRepository.GetAllAsync(Id);
-            return View(patients);
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid weekDayId)
         {
-            var patient = await patientRepository.GetAsync(id);
+            var patient = await patientRepository.GetAsync(weekDayId);
 
             if (patient != null)
             {
@@ -100,7 +96,7 @@ namespace Planner.Controllers
             if (updatePatient != null)
             {
                 //Show success
-                return RedirectToAction("List");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
@@ -118,12 +114,9 @@ namespace Planner.Controllers
 
             if (deletePatient != null)
             {
-                //Show success
-                return RedirectToAction("List");
+                return RedirectToAction("Index", "Home");
             }
-
-            //Show failed
             return RedirectToAction("Edit", new { id = editPatientRequest.Id });
         }
     }
-}
+}   

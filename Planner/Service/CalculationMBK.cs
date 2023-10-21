@@ -7,7 +7,7 @@ namespace Planner.Service
     {
       //  Patient patient;
       //  Research research;
-        WeekDay weekDay = new WeekDay();
+        
 
         // private readonly DateTime dayStart = new DateTime(03-10-2023);
 
@@ -69,14 +69,22 @@ namespace Planner.Service
             return valueResearch[index];
         }
 
-        public double RemainderMBK(double value)
+        public double RemainderMBK(WeekDay weekDay)
         {
             double iloscMBK = 0;
-            foreach(var name in weekDay.Patients)
+            if(weekDay.Patients != null)
             {
-                iloscMBK += CalculateNumberOfResearches(name.Research) * radiationResearch[name.Research]["Min"];
+                foreach (var name in weekDay.Patients)
+                {
+                    iloscMBK += radiationResearch[name.Research]["Min"];
+                }
+                return weekDay.QuantityMbK - iloscMBK;
             }
-          return iloscMBK;
+            else
+            {
+                return weekDay.QuantityMbK;
+            }
+           
         }
         //Zrobione
         public int ArrivalDay(DateTime day)

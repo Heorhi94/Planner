@@ -41,9 +41,10 @@
                 @foreach (var weekDay in Model)
                 {
                     <div class="mb-5 bg-light box-shadow">
-                        <h2 class="mb-2"> @weekDay.Day.ToShortDateString() </h2>
-                        <h2 class="mb-2"> @weekDay.ActivityDay </h2>
-                        <h2 class="mb-2"> @weekDay.QuantityMbK </h2>
+                        <h2 class="mb-2">Day: @weekDay.Day.ToShortDateString() </h2>
+                        <h2 class="mb-2">Activity Day : @weekDay.ActivityDay </h2>
+                        <h2 class="mb-2">Quantity MBK : @weekDay.QuantityMbK </h2>
+                        <h2 class="mb-2">Remainder MBK : @weekDay.RemainderMBK </h2>
 
                         <div class="container py-5">
                             @if(weekDay.Patients != null)
@@ -56,6 +57,7 @@
                                                 <th>@people.Name</th>
                                                 <th>@people.Surname</th>
                                                 <th>@people.Research</th>
+                                               
                                             </tr>
                                         </thread>
                                     </table>
@@ -85,7 +87,8 @@
                             asp-area=""
                             asp-controller="WeekDay"
                             asp-action="Edit"
-                            asp-route-id="@weekDay.Id">
+                            asp-route-weekDayId="@weekDay.Id"
+                            >
                                 Edit Day
                             </a>
                             </button>

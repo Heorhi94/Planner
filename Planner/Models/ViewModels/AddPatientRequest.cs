@@ -8,8 +8,8 @@ namespace Planner.Models.ViewModels
         public string Surname { get; set; }
         public DateTime RegistrationDay { get; set; }
         public string Research { get; set; }
-
         public Guid PatientWeekDayId { get; set; }
+        public List<string> NameResearchList { get; set; }
 
 
     }
