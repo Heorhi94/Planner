@@ -7,13 +7,11 @@ using Planner.Repositories;
 using Planner.Service;
 
 namespace Planner.Controllers
-{
-   
+{  
     public class WeekDayController : Controller
     {
         private readonly IWeekDayRepository weekDayRepository;
         private readonly IPatientRepository patientRepository;
-        CalculationMBK calculationMBK = new CalculationMBK();
         public WeekDayController(IWeekDayRepository weekDayRepository, IPatientRepository patientRepository)
         {
             this.weekDayRepository = weekDayRepository;
@@ -48,7 +46,8 @@ namespace Planner.Controllers
                     return RedirectToAction("List");
                 }
             }
-            weekDay.ActivityDay = calculationMBK.ArrivalDay(addWeekDayRequest.Day);
+            CalculationMBK calculationMBK = new CalculationMBK();
+            weekDay.ActivityDay = calculationMBK.ActivityDay(addWeekDayRequest.Day);
             weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
             await weekDayRepository.AddAsync(weekDay);
             return RedirectToAction("List");
@@ -65,7 +64,7 @@ namespace Planner.Controllers
                 var editWeekDay = new EditWeekDayRequest
                 {
                     Id = weekDay.Id,
-                    ArriviaDay = weekDay.ArriviaDay,
+                    ArrivalDay = weekDay.ArrivalDay,
                     ActivityDay = weekDay.ActivityDay,
                     QuantityMbK = weekDay.QuantityMbK,
                     RegisteredPatients = weekDay.RegisteredPatients,
@@ -89,7 +88,7 @@ namespace Planner.Controllers
             {
                 Id = editWeekDayRequest.Id,
                 Day = editWeekDayRequest.Day,
-                ArriviaDay = editWeekDayRequest.ArriviaDay,
+                ArrivalDay = editWeekDayRequest.ArrivalDay,
                 ActivityDay = editWeekDayRequest.ActivityDay,
                 QuantityMbK = editWeekDayRequest.QuantityMbK,
                 RegisteredPatients = editWeekDayRequest.RegisteredPatients,
@@ -98,20 +97,14 @@ namespace Planner.Controllers
 
             var patients = await patientRepository.GetPatientForDay(weekDay.Id);
             weekDay.Patients = (ICollection<Patient>)patients;
-            weekDay.ActivityDay = calculationMBK.ArrivalDay(weekDay.Day);
+            CalculationMBK calculationMBK = new CalculationMBK();
+            weekDay.ActivityDay = calculationMBK.ActivityDay(weekDay.Day);
             weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
             var updateWeekDay = await weekDayRepository.UpdateAsync(weekDay);
             if (updateWeekDay != null)
             {
-                //Show success
                 return RedirectToAction("List");
             }
-            else
-            {
-
-                // Show failed
-            }
-
             return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
         }
 
@@ -122,11 +115,8 @@ namespace Planner.Controllers
             if (deleteweekDay != null)
             {
                 await patientRepository.DeletePatientsForDay(editWeekDayRequest.Id);
-                //Show success
                 return RedirectToAction("List");
             }
-
-            //Show failed
             return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
         }
 

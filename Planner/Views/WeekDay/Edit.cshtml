@@ -7,8 +7,6 @@
         <h1>Edit WeekDay</h1>
     </div>
 </div>
-
-
 <div class="container py-5">
     @if (Model != null)
     {
@@ -17,24 +15,18 @@
                 <label class="form-label">Id</label>
                 <input type="text" class="form-control" id="id" asp-for="Id" readonly />
             </div>
-
             <div class="mb-3">
-                <label class="form-label">Arrivial Day</label>
-                <input type="date" class="form-control" id="arrivialDay" asp-for="ArriviaDay" />
+                <label class="form-label">Arrival Day</label>
+                <input type="date" class="form-control" id="arrivialDay" asp-for="ArrivalDay" />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Day</label>
                 <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")   />
-                
             </div>
-
             <div class="mb-3">
-
                 <label class="form-label">Quantity MBK</label>
                 <input type="number" class="form-control" id="quantityMbk" asp-for="QuantityMbK" readonly />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Patients</label>
                 <div class="container py-5">
@@ -68,7 +60,6 @@
                         <p>No Patient found!</p>
                     }
                 </div>
-                @*<input type="text" class="form-control" id="patients" asp-for="Patients" />*@
             </div>
 
             <div class="mv-3">
@@ -81,16 +72,12 @@
                         Delete
                     </button>
                 </div>
-
             </div>
-
-
         </form>
     }
     else
     {
         <p>Day is not exist</p>
     }
-
 </div>
 

@@ -21,27 +21,41 @@ namespace Planner.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add(DateTime registrationDay, Guid weekDayId)
+        public IActionResult Add(DateTime registrationDay, Guid weekDayId, double quantityMBK)
         {
             var calculationMBK = new CalculationMBK();
+            List <string> list = new List<string>();
+            foreach (var research in calculationMBK.radiationResearch)
+            {
+                foreach (var minMax in research.Value)
+                {
+                    if (minMax.Key == "Min")
+                    {
+                        var minValue = minMax.Value;
+                        if (quantityMBK > minValue)
+                        {
+                            list.Add(research.Key.ToString());
+                        }
+                    }
+                }
+            }
             var addPatientRequest = new AddPatientRequest
             {
                 PatientWeekDayId = weekDayId,
                 RegistrationDay = registrationDay,
-                NameResearchList = calculationMBK.nameResearch
+                NameResearchList = list,
+                QuantityMBK = quantityMBK
             };
-
             return View(addPatientRequest);
         }
 
         [HttpPost]
         [ActionName("Add")]
         public async Task<IActionResult> Add(AddPatientRequest addPatientRequest)
-        {       
-            Guid id = new Guid();
+        {    
             var patient = new Patient
             {
-                Id = id,
+                Id = new Guid(),
                 WeekDayId = addPatientRequest.PatientWeekDayId,
                 RegistrationDay = addPatientRequest.RegistrationDay,
                 Name = addPatientRequest.Name,
@@ -50,10 +64,7 @@ namespace Planner.Controllers
             };
             await patientRepository.AddAsync(patient);
             var updWeekDay = await weekDayRepository.GetAsync(patient.WeekDayId);
-            //updWeekDay.Patients.Add(patient);
              await weekDayRepository.UpdateAsync(updWeekDay);
-            
-
             return RedirectToAction("Index", "Home");
         }
 

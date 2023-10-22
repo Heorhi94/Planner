@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Planner.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class AddMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,10 +16,11 @@ namespace Planner.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ArriviaDay = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ArrivalDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Day = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActivityDay = table.Column<int>(type: "int", nullable: false),
                     QuantityMbK = table.Column<double>(type: "float", nullable: false),
+                    RemainderMBK = table.Column<double>(type: "float", nullable: false),
                     RegisteredPatients = table.Column<int>(type: "int", nullable: false),
                     RemainingPatients = table.Column<int>(type: "int", nullable: false),
                     NumberOfPatients = table.Column<int>(type: "int", nullable: false)
@@ -38,24 +39,23 @@ namespace Planner.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     RegistrationDay = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Research = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PatientWeekDayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    WeekDaysId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    WeekDayId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Patients", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Patients_WeekDays_WeekDaysId",
-                        column: x => x.WeekDaysId,
+                        name: "FK_Patients_WeekDays_WeekDayId",
+                        column: x => x.WeekDayId,
                         principalTable: "WeekDays",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Patients_WeekDaysId",
+                name: "IX_Patients_WeekDayId",
                 table: "Patients",
-                column: "WeekDaysId");
+                column: "WeekDayId");
         }
 
         /// <inheritdoc />

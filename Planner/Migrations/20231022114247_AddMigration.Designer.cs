@@ -12,8 +12,8 @@ using Planner.Data;
 namespace Planner.Migrations
 {
     [DbContext(typeof(PlannerDbContext))]
-    [Migration("20231021150258_AddRemainderMBK")]
-    partial class AddRemainderMBK
+    [Migration("20231022114247_AddMigration")]
+    partial class AddMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace Planner.Migrations
                     b.Property<int>("ActivityDay")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ArriviaDay")
+                    b.Property<DateTime>("ArrivalDay")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Day")

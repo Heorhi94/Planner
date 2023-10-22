@@ -74,7 +74,7 @@ namespace Planner.Repositories
             var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
             if (existingWeekDay != null)
             {
-                existingWeekDay.ArriviaDay = weekDay.ArriviaDay;
+                existingWeekDay.ArrivalDay = weekDay.ArrivalDay;
                 existingWeekDay.ActivityDay = weekDay.ActivityDay;
                 existingWeekDay.QuantityMbK = weekDay.QuantityMbK;
                 existingWeekDay.Day = weekDay.Day;

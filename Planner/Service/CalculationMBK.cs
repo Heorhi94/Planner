@@ -5,11 +5,6 @@ namespace Planner.Service
 {
     public class CalculationMBK
     {
-      //  Patient patient;
-      //  Research research;
-        
-
-        // private readonly DateTime dayStart = new DateTime(03-10-2023);
 
         private readonly Dictionary<string, double> RadiationsDay = new Dictionary<string, double>
         {
@@ -38,7 +33,6 @@ namespace Planner.Service
            {0 }
        };
 
-
         public Dictionary<string, Dictionary<string, int>> radiationResearch = new Dictionary<string, Dictionary<string, int>>
         {
             {"Bones", new Dictionary<string, int>{ {"Min", 370 },{"Max", 570 } } },
@@ -46,6 +40,7 @@ namespace Planner.Service
             {"Thuroid", new Dictionary<string, int>{ {"Min", 75 },{"Max", 185 } } },
             {"Liver", new Dictionary<string, int>{ {"Min", 75 },{"Max", 185 } } }
         };
+
         public List<string> nameResearch = new List<string>
         {
             {"Bones" },
@@ -86,8 +81,18 @@ namespace Planner.Service
             }
            
         }
+
+        public DateTime ArrivalDay(DateTime date)
+        {
+            if(date != new DateTime(2023, 10, 3))
+            {
+                return date;
+            }
+            return date;
+        }
+
         //Zrobione
-        public int ArrivalDay(DateTime day)
+        public int ActivityDay(DateTime day)
         {
             DateTime dayStart = new DateTime(2023, 10, 3);
             DateTime targetDate = dayStart;
@@ -104,7 +109,6 @@ namespace Planner.Service
                     numberOfDays = 1;
                     //targetDate = dayStart.AddDays(daysToAdd);
                 }
-                
             }
             return numberOfDays;
         }
@@ -119,6 +123,12 @@ namespace Planner.Service
                 return RadiationsDay[key];
             }
             return 0; 
+        }
+
+        public double CalkulationDay(Guid id)
+        {
+
+            return ;
         }
 
     }

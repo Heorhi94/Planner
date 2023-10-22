@@ -62,7 +62,7 @@ namespace Planner.Migrations
                     b.Property<int>("ActivityDay")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ArriviaDay")
+                    b.Property<DateTime>("ArrivalDay")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("Day")

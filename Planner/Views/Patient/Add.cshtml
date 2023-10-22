@@ -11,16 +11,15 @@
 <div class="container py-5">
     <form method="post">
         <div class="mb-3">
-           @* <label class="form-label">Id</label>*@
-            <input type="hidden" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
+            <input type="text" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
         </div>
-
+        <div class="mb-3">
+            <input type="text" name="quantityMBK" value="@Model.QuantityMBK" asp-for="QuantityMBK" readonly />
+        </div>
         <div class="mb-3">
             <label class="form-label">Day</label>
             <input type="text" name="registrationDay" value="@Model.RegistrationDay.ToShortDateString()" asp-for="RegistrationDay" readonly />
         </div>
-
-
         <div class="mb-3">
             <label class="form-label">Name</label>
             <input type="text" class="form-control" id="name" asp-for="Name" />
@@ -42,12 +41,28 @@
             </select>
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-dark">Submit</button>
+            <button type="submit" class="btn btn-dark" id="submit-button">Submit</button>
         </div>
+        <div id="message-container" style="display:none;"></div>
+
+        <script>
+            document.getElementById("submit-button").addEventListener("click", function (e) {
+                var name = document.getElementById("name").value;
+                var surname = document.getElementById("surname").value;
+                var research = document.getElementById("research").value;
+
+                if (name === "" || surname === "" || research === "") {
+                    
+                    var messageContainer = document.getElementById("message-container");
+                    messageContainer.innerHTML = "<div class='alert alert-danger'>Все поля должны быть заполнены.</div>";
+                    messageContainer.style.display = "block";
+                    e.preventDefault();
+                }
+            });
+        </script>
+
 
     </form>
 
 </div>
-
-
 

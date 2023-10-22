@@ -41,43 +41,51 @@
                 @foreach (var weekDay in Model)
                 {
                     <div class="col">
-                        <div class="mb-5 bg-light box-shadow">
+                        <div class="mb-3 bg-light box-shadow">
                             <h2 class="mb-2 small">Day: @weekDay.Day.ToShortDateString() </h2>
                             <h2 class="mb-2 small">Activity Day : @weekDay.ActivityDay </h2>
                             <h2 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h2>
                             <h2 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h2>
 
-                            <div class="container py-5">Patients
-                                @if(weekDay.Patients != null)
-                                {
-                                    @foreach (var people in weekDay.Patients)
+                            <div class="container py-3">Patients
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"><small>Name</small></th>
+                                            <th scope="col"><small>Surname</small></th>
+                                            <th scope="col"><small>Research</small></th>
+                                        </tr>
+                                    </thead>
+                                    @if (weekDay.Patients != null)
                                     {
-                                        <table class="table">
-                                            <thread>
-                                                <tr>
-                                                    <th><small>@people.Name</small></th>
-                                                    <th><small>@people.Surname</small></th>
-                                                    <th><small>@people.Research</small></th>
+                                        @foreach (var people in weekDay.Patients)
+                                        {
+                                            <tbody class="table-group-divider">
                                                
+                                                <tr>
+                                                    <td><small>@people.Name</small></td>
+                                                    <td><small>@people.Surname</small></td>
+                                                    <td><small>@people.Research</small></td>
                                                 </tr>
-                                            </thread>
-                                        </table>
+                                            </tbody>
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                     <p>No Patient found!</p>
-                                }
+                                    else
+                                    {
+                                        <tfoot>No Patient found!</tfoot>
+                                    }
+                                            
+                                </table>
                             </div>
-
-                            <div class="mb-3 small">
+                            <div class="mb-1 small">
                                 <button type="submit" class="btn btn-dark">
                                     <a class="text-white no-underline-hover"
                                        asp-area=""
                                        asp-controller="Patient"
                                        asp-action="Add"
                                        asp-route-weekDayId="@weekDay.Id"
-                                       asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")">
+                                       asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")"
+                                       asp-route-quantityMBK="@weekDay.RemainderMBK">
                                         Add Patient
                                     </a>
                                 </button>
@@ -97,10 +105,8 @@
                             </div>
                         </div>
                     </div>
-                   
                 }
             }
-
         </div>
     </div>
 </div>

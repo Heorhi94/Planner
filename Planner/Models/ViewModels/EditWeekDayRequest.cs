@@ -6,7 +6,7 @@ namespace Planner.Models.ViewModels
     public class EditWeekDayRequest
     {
         public Guid Id { get; set; }
-        public DateTime ArriviaDay { get; set; }
+        public DateTime ArrivalDay { get; set; }
         public DateTime Day { get; set; }
         public int ActivityDay { get; set; }
         public double QuantityMbK { get; set; }

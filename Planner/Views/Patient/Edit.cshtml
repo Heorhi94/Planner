@@ -17,32 +17,26 @@
                 <label class="form-label">Id</label>
                 <input type="text" class="form-control" id="id" asp-for="Id" readonly />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" asp-for="Name" />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Surname</label>
                 <input type="text" class="form-control" id="surname" asp-for="Surname" />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Registration day</label>
                 <input type="date" class="form-control" id="registrationDay" asp-for="RegistrationDay" readonly />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Research</label>
                 <input type="text" class="form-control" id="research" asp-for="Research" />
             </div>
-
             <div class="mb-3">
                 <label class="form-label">Id</label>
                 <input type="hidden" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly />
             </div>
-
             <div class="mv-3">
                 <div class="d-flex">
                     <button type="submit" class="btn btn-dark">Update</button>
@@ -53,10 +47,7 @@
                         Delete
                     </button>
                 </div>
-
             </div>
-
-
         </form>
     }
     else
@@ -65,18 +56,3 @@
     }
 
 </div>
-
-@*<script>
-    // Получите текущую дату на сервере (в C#)
-    var currentDate = new Date(@DateTime.Now.Ticks / 10000);
-
-            // Преобразуйте текущую дату в формат yyyy-MM-dd (как ожидается для атрибута 'min' в <input type="date>)
-        var year = currentDate.getFullYear();
-    var month = String(currentDate.getMonth() + 1).padStart(2, '0'); // добавьте 1, так как месяцы начинаются с 0
-    var day = String(currentDate.getDate()).padStart(2, '0');
-
-    var formattedDate = year + '-' + month + '-' + day;
-
-    // Установите минимальную дату в поле ввода
-    document.getElementById('registrationDay').setAttribute('min', formattedDate);
-</script>*@
