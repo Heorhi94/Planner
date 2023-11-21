@@ -1,7 +1,7 @@
 ﻿using Azure;
 using Planner.Models.Domain;
 
-namespace Planner.Repositories
+namespace Planner.Repositories.Interface
 {
     public interface IPatientRepository
     {

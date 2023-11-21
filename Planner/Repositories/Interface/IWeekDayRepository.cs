@@ -1,6 +1,6 @@
 ﻿using Planner.Models.Domain;
 
-namespace Planner.Repositories
+namespace Planner.Repositories.Interface
 {
     public interface IWeekDayRepository
     {
@@ -10,6 +10,5 @@ namespace Planner.Repositories
         Task<WeekDay?> UpdateAsync(WeekDay weekDay);
         Task<WeekDay?> DeleteAsync(Guid id);
 
-        Task<IEnumerable<WeekDay>> GetHistoryAsync();
     }
 }

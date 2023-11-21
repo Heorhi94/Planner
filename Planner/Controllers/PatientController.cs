@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Planner.Models.Domain;
 using Planner.Models.ViewModels;
-using Planner.Repositories;
+using Planner.Repositories.Interface;
 using Planner.Service;
 
 namespace Planner.Controllers
 {
-    
+
     public class PatientController : Controller
     {
         private readonly IPatientRepository patientRepository;
         private readonly IWeekDayRepository weekDayRepository;
+
 
         public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository)
         {
@@ -61,10 +62,15 @@ namespace Planner.Controllers
                 Name = addPatientRequest.Name,
                 Surname = addPatientRequest.Surname,
                 Research = addPatientRequest.Research,
+                BirthDay = addPatientRequest.BirthDay
             };
-            await patientRepository.AddAsync(patient);
+            CalculationMBK calculationMBK = new CalculationMBK();
             var updWeekDay = await weekDayRepository.GetAsync(patient.WeekDayId);
-             await weekDayRepository.UpdateAsync(updWeekDay);
+            var mbk = calculationMBK.PatientMbK(updWeekDay);
+            patient.MBK = mbk;
+            await patientRepository.AddAsync(patient);
+            await weekDayRepository.UpdateAsync(updWeekDay);
+           
             return RedirectToAction("Index", "Home");
         }
 

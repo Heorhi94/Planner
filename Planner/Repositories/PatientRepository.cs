@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Planner.Data;
 using Planner.Models.Domain;
+using Planner.Repositories.Interface;
 
 namespace Planner.Repositories
 {

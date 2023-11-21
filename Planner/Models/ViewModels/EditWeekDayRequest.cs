@@ -14,6 +14,5 @@ namespace Planner.Models.ViewModels
         public int RemainingPatients { get; set; }
         public int NumberOfPatients { get; set; }
         public ICollection<Patient> Patients { get; set; }
-       // public string[] SelectPatients { get; set; } = Array.Empty<string>();
     }
 }

@@ -41,27 +41,36 @@ namespace Planner.Service
             {"Liver", new Dictionary<string, int>{ {"Min", 75 },{"Max", 185 } } }
         };
 
-        public List<string> nameResearch = new List<string>
+        public Dictionary<string,int> nameResearch = new Dictionary<string, int>
         {
-            {"Bones" },
-            {"Kidney" },
-            {"Thuroid" },
-            {"Liver" }
+            {"Bones", 0},
+            {"Kidney", 0},
+            {"Thuroid", 0},
+            {"Liver", 0}
         };
 
-        public int CalculateNumberOfResearches(string name)
+        public Dictionary<string,int> CalculateNumberOfResearches(string name)
         {
             int index = 0;
-
-            foreach(string nameReserch in nameResearch)
+            foreach(string nameReserch in nameResearch.Keys)
             {
                 int value = 1;
                 if(name == nameReserch)
                 {
-                    valueResearch[index] += value;
+                    nameResearch[name] += value;
                 }
             }
-            return valueResearch[index];
+            return nameResearch;
+        }
+
+        public double PatientMbK(WeekDay weekDay)
+        {
+            double mbk = 0;
+            foreach (var name in weekDay.Patients)
+            {
+                mbk = radiationResearch[name.Research]["Min"];
+            }
+            return mbk;
         }
 
         public double RemainderMBK(WeekDay weekDay)
@@ -81,7 +90,23 @@ namespace Planner.Service
             }
            
         }
+        public double UpdRemainderMBK(WeekDay weekDay)
+        {
+            double iloscMBK = 0;
+            if (weekDay.Patients != null)
+            {
+                foreach (var patient in weekDay.Patients)
+                {
+                    iloscMBK += patient.MBK;
+                }
+                return weekDay.QuantityMbK - iloscMBK;
+            }
+            else
+            {
+                return weekDay.QuantityMbK;
+            }
 
+        }
         public DateTime ArrivalDay(DateTime date)
         {
             if(date != new DateTime(2023, 10, 3))
@@ -90,8 +115,7 @@ namespace Planner.Service
             }
             return date;
         }
-
-        //Zrobione
+        
         public int ActivityDay(DateTime day)
         {
             DateTime dayStart = new DateTime(2023, 10, 3);
@@ -112,8 +136,7 @@ namespace Planner.Service
             }
             return numberOfDays;
         }
-
-        //Zrobione
+        
         public double QuantityMbK(int day)
         {
             string key = day.ToString();
@@ -125,11 +148,31 @@ namespace Planner.Service
             return 0; 
         }
 
-        public double CalkulationDay(Guid id)
+        public double CalculatedResult(WeekDay weekDay)
         {
+            double result = 0;
+            if (weekDay.QuantityMbK != 0)
+            {
+                var researc = weekDay.Patients.Count;
+                var remainder = weekDay.QuantityMbK / researc;
+                foreach (var people in weekDay.Patients)
+                {
 
-            return ;
+                    result = people.MBK + remainder;
+                    foreach(var res in radiationResearch)
+                    {
+                        if(people.Research == res.Key)
+                        {
+                            if (people.MBK > res.Value[people.Research])
+
+                            {
+                                result = people.MBK - remainder;
+                            }
+                        }
+                    }
+                }
+            }
+            return result;
         }
-
     }
 }

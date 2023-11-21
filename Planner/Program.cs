@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Planner.Data;
 using Planner.Repositories;
+using Planner.Repositories.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +13,14 @@ if (string.IsNullOrEmpty(connectionString))
     connectionString = builder.Configuration.GetConnectionString("PlannerDbConnectionsStringLaptop");
 }
 
-// Добавьте следующие строки для настройки Swagger
+
 
 builder.Services.AddDbContext<PlannerDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IWeekDayRepository, WeekDayRepository>();
+builder.Services.AddScoped<IWeekDayServices, WeekDayServices>();
 
 var app = builder.Build();
 

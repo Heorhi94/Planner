@@ -53,6 +53,7 @@
                                         <tr>
                                             <th scope="col"><small>Name</small></th>
                                             <th scope="col"><small>Surname</small></th>
+                                            <th scope="col"><small>Birth day</small></th>
                                             <th scope="col"><small>Research</small></th>
                                         </tr>
                                     </thead>
@@ -65,6 +66,7 @@
                                                 <tr>
                                                     <td><small>@people.Name</small></td>
                                                     <td><small>@people.Surname</small></td>
+                                                    <td><small>@people.BirthDay.ToShortDateString()</small></td>
                                                     <td><small>@people.Research</small></td>
                                                 </tr>
                                             </tbody>
@@ -100,6 +102,16 @@
                                 >
                                     Edit Day
                                 </a>
+                                </button>
+
+                                <button type="submit" class="btn btn-danger ms-2">
+                                    <a class="text-white no-underline-hover"
+                               asp-area=""
+                               asp-controller="WeekDay"
+                               asp-action="CloseDay"
+                               >
+                                        Close Day
+                                    </a>
                                 </button>
 
                             </div>
