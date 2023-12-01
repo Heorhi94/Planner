@@ -13,16 +13,13 @@ namespace Planner.Controllers
     {
         private readonly IPatientRepository patientRepository;
         private readonly IWeekDayRepository weekDayRepository;
-        private readonly IServices services;
         private CalculationMBK calculationMBK = new CalculationMBK();
         private Research research = new Research();
-        private Generator generator = new Generator();
 
-        public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository, IServices servicesh)
+        public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository)
         {
             this.patientRepository = patientRepository;
             this.weekDayRepository = weekDayRepository;
-            this.services = services;
         }
 
         [HttpGet]
