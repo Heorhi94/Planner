@@ -12,6 +12,7 @@ namespace Planner.Models.ViewModels
         public Guid PatientWeekDayId { get; set; }
         public List<string> NameResearchList { get; set; }
         public double QuantityMBK { get; set; }
+        public double MBK { get; set; }
 
 
     }

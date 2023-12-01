@@ -74,7 +74,7 @@ namespace Planner.Migrations
                     b.Property<int>("NumberOfPatients")
                         .HasColumnType("int");
 
-                    b.Property<double>("QuantityMbK")
+                    b.Property<double>("ValMbkForGenDay")
                         .HasColumnType("float");
 
                     b.Property<int>("RegisteredPatients")

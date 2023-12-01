@@ -4,20 +4,63 @@ namespace Planner.Service
 {
     public class Generator
     {
-      //  public DateTime ArrivalDate { get; set; }
-      
-
-      /*  public int ActivityDays(DateTime startDate, DateTime endDate)
+        public readonly Dictionary<string, double> RadiationsDay = new Dictionary<string, double>
         {
-            int workingDays = 0;
-            for (var date = startDate; date <= endDate; date = date.AddDays(1))
+            {"0", 10000 },
+            {"1", 7772 },
+            {"2", 6040 },
+            {"3", 4695 },
+            {"4", 3649 },
+            {"5", 2836 },
+            {"6", 2204 },
+            {"7", 1713 },
+            {"8", 1331 },
+            {"9", 1035 },
+            {"10", 804 },
+            {"11", 625 },
+            {"12", 486 },
+            {"13", 378 },
+            {"14", 293 }
+        };
+        public DateTime ArrivalDay(DateTime date)
+        {
+            if (date != new DateTime(2023, 10, 3))
             {
-                if (date.DayOfWeek != DayOfWeek.Saturday && date.DayOfWeek != DayOfWeek.Sunday)
+                return date;
+            }
+            return date;
+        }
+        public int ActivityDay(DateTime day)
+        {
+            DateTime dayStart = new DateTime(2023, 10, 3);
+            DateTime targetDate = dayStart;
+
+            int numberOfDays = 0;
+            int daysToAdd = 14;
+            while (targetDate < day)
+            {
+                targetDate = targetDate.AddDays(1);
+
+                numberOfDays++;
+                if (numberOfDays > daysToAdd) // Zresetuj numberOfDays na 1 po znalezieniu co drugiego wtorku
                 {
-                    workingDays++;
+                    numberOfDays = 1;
+                    //targetDate = dayStart.AddDays(daysToAdd);
                 }
             }
-            return workingDays;
-        }*/
+            return numberOfDays;
+        }
+        public double ValMbkForGenDay(int day)
+        {
+            string key = day.ToString();
+
+            if (RadiationsDay.ContainsKey(key))
+            {
+                return RadiationsDay[key];
+            }
+            return 0;
+        }
+
+
     }
 }

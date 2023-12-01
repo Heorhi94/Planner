@@ -24,12 +24,12 @@
 
 <style>
     .no-underline-hover {
-        text-decoration: none; /* Убрать подчеркивание текста */
-        transition: font-size 0.2s; /* Добавить анимацию изменения размера шрифта */
+        text-decoration: none; 
+        transition: font-size 0.2s; 
     }
 
         .no-underline-hover:hover {
-            font-size: 1.1em; /* Увеличить размер шрифта при наведении */
+            font-size: 1.1em; 
         }
 </style>
 
@@ -55,6 +55,7 @@
                                             <th scope="col"><small>Surname</small></th>
                                             <th scope="col"><small>Birth day</small></th>
                                             <th scope="col"><small>Research</small></th>
+                                            <th scope="col"><small>MBK</small></th>
                                         </tr>
                                     </thead>
                                     @if (weekDay.Patients != null)
@@ -68,6 +69,7 @@
                                                     <td><small>@people.Surname</small></td>
                                                     <td><small>@people.BirthDay.ToShortDateString()</small></td>
                                                     <td><small>@people.Research</small></td>
+                                                    <td><small>@people.MBK</small></td>
                                                 </tr>
                                             </tbody>
                                         }
@@ -108,7 +110,7 @@
                                     <a class="text-white no-underline-hover"
                                asp-area=""
                                asp-controller="WeekDay"
-                               asp-action="CloseDay"
+                               asp-action="CalculatedResult"
                                >
                                         Close Day
                                     </a>

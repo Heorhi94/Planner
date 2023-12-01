@@ -1,0 +1,83 @@
+﻿@model Planner.Models.ViewModels.EditWeekDayRequest
+@{
+}
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Edit WeekDay</h1>
+    </div>
+</div>
+<div class="container py-5">
+    @if (Model != null)
+    {
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input type="text" class="form-control" id="id" asp-for="Id" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Arrival Day</label>
+                <input type="date" class="form-control" id="arrivialDay" asp-for="ArrivalDay" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Day</label>
+                <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")    />
+        </div>
+        <div class="mb-3">
+                <label class="form-label">Quantity MBK</label>
+                <input type="number" class="form-control" id="quantityMbk" asp-for="QuantityMbK" readonly />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Patients</label>
+                <div class="container py-5">
+                    @if (Model.Patients != null)
+                    {
+                        @foreach (var people in Model.Patients)
+                        {
+                            <table class="table">
+                                <thread>
+                                    <tr>
+                                        <th>@people.Name</th>
+                                        <th>@people.Surname</th>
+                                        <th>@people.Research</th>
+                                        <th>
+                                            <a asp-area=""
+                                   asp-controller="Patient"
+                                   asp-action="Edit"
+                                   asp-route-weekDayId="@people.Id"
+                                   asp-route-day="@people.RegistrationDay">
+                                                Edit
+                                            </a>
+                                        </th>
+                                    </tr>
+                                </thread>
+                                <tbody>
+                            </table>
+                        }
+                    }
+                    else
+                    {
+                        <p>No Patient found!</p>
+                    }
+                </div>
+            </div>
+
+            <div class="mv-3">
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-dark">Update</button>
+                    <button type="submit" class="btn btn-danger ms-2"
+                        asp-area=""
+                        asp-controller="WeekDay"
+                        asp-action="Delete">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </form>
+    }
+    else
+    {
+        <p>Day is not exist</p>
+    }
+</div>
+

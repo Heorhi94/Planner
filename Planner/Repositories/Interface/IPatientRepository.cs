@@ -1,5 +1,4 @@
-﻿using Azure;
-using Planner.Models.Domain;
+﻿using Planner.Models.Domain;
 
 namespace Planner.Repositories.Interface
 {
@@ -10,7 +9,6 @@ namespace Planner.Repositories.Interface
         Task<Patient> AddAsync(Patient patient);
         Task<Patient?> UpdateAsync(Patient patient);
         Task<Patient?> DeleteAsync(Guid id);
-        Task<IEnumerable<Patient>> GetPatientForDay(Guid Id);
-        Task<IEnumerable<Patient>> DeletePatientsForDay(Guid Id);
+
     }
 }

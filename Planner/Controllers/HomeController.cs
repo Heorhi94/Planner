@@ -10,9 +10,9 @@ namespace Planner.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IWeekDayRepository weekDayRepository;
-        private readonly IWeekDayServices weekDayServices;
+        private readonly IServices weekDayServices;
 
-        public HomeController(ILogger<HomeController> logger, IWeekDayRepository weekDayRepository, IWeekDayServices weekDayServices)
+        public HomeController(ILogger<HomeController> logger, IWeekDayRepository weekDayRepository, IServices weekDayServices)
         {
             _logger = logger;
             this.weekDayRepository = weekDayRepository;
@@ -29,13 +29,6 @@ namespace Planner.Controllers
         {
             var weekDay = await weekDayServices.GetHistoryAsync();
             return View(weekDay);
-        }
-
-        public async Task<IActionResult> Analitics()
-        {
-            var analitics =await weekDayServices.GetAnalitics();
-
-            return View(analitics);
         }
 
         public IActionResult Privacy()

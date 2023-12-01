@@ -9,7 +9,8 @@ namespace Planner.Repositories
     public class WeekDayRepository : IWeekDayRepository
     {
         private readonly PlannerDbContext plannerDbContext;
-
+        private CalculationMBK calculationMBK = new CalculationMBK();
+        
         public WeekDayRepository(PlannerDbContext plannerDbContext)
         {
             this.plannerDbContext = plannerDbContext;
@@ -62,7 +63,6 @@ namespace Planner.Repositories
 
         public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)
         {
-            CalculationMBK calculationMBK = new CalculationMBK();
             var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
             if (existingWeekDay != null)
             {

@@ -12,12 +12,15 @@ namespace Planner.Controllers
     {
         private readonly IWeekDayRepository weekDayRepository;
         private readonly IPatientRepository patientRepository;
-        private readonly IWeekDayServices weekDayServices;
-        public WeekDayController(IWeekDayRepository weekDayRepository, IPatientRepository patientRepository, IWeekDayServices weekDayServices)
+        private readonly IServices services;
+        private CalculationMBK calculationMBK = new CalculationMBK();
+        private Generator generator = new Generator();
+
+        public WeekDayController(IWeekDayRepository weekDayRepository, IPatientRepository patientRepository, IServices services)
         {
             this.weekDayRepository = weekDayRepository;
             this.patientRepository = patientRepository;
-            this.weekDayServices = weekDayServices;
+            this.services = services;
         }
 
         [HttpGet]
@@ -48,9 +51,8 @@ namespace Planner.Controllers
                     return RedirectToAction("List");
                 }
             }
-            CalculationMBK calculationMBK = new CalculationMBK();
-            weekDay.ActivityDay = calculationMBK.ActivityDay(addWeekDayRequest.Day);
-            weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
+            weekDay.ActivityDay = generator.ActivityDay(addWeekDayRequest.Day);
+            weekDay.QuantityMbK = generator.ValMbkForGenDay(weekDay.ActivityDay);
             weekDay.RemainderMBK = calculationMBK.RemainderMBK(weekDay);
             await weekDayRepository.AddAsync(weekDay);
             return RedirectToAction("List");
@@ -73,11 +75,10 @@ namespace Planner.Controllers
                     RegisteredPatients = weekDay.RegisteredPatients,
                     Day = weekDay.Day,
                 };
-                var patients = await patientRepository.GetPatientForDay(weekDay.Id);
-                CalculationMBK calculationMBK = new CalculationMBK();
+                var patients = await services.GetPatientForDay(weekDay.Id);
                 foreach (var patient in patients)
                 {
-                    patient.MBK = calculationMBK.PatientMbK(weekDay);
+                    patient.MBK = calculationMBK.PatientMbK(patient);
                 }
                 editWeekDay.Patients = (ICollection<Patient>)patients;
                 return View(editWeekDay);
@@ -95,17 +96,14 @@ namespace Planner.Controllers
                 Id = editWeekDayRequest.Id,
                 Day = editWeekDayRequest.Day,
                 ArrivalDay = editWeekDayRequest.ArrivalDay,
-                ActivityDay = editWeekDayRequest.ActivityDay,
-                QuantityMbK = editWeekDayRequest.QuantityMbK,
                 RegisteredPatients = editWeekDayRequest.RegisteredPatients,
                 RemainingPatients = editWeekDayRequest.RemainingPatients
             };
 
-            var patients = await patientRepository.GetPatientForDay(weekDay.Id);
+            var patients = await services.GetPatientForDay(weekDay.Id);
             weekDay.Patients = (ICollection<Patient>)patients;
-            CalculationMBK calculationMBK = new CalculationMBK();
-            weekDay.ActivityDay = calculationMBK.ActivityDay(weekDay.Day);
-            weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
+            weekDay.ActivityDay = generator.ActivityDay(weekDay.Day);
+            weekDay.QuantityMbK = generator.ValMbkForGenDay(weekDay.ActivityDay);
 
             var updateWeekDay = await weekDayRepository.UpdateAsync(weekDay);
             if (updateWeekDay != null)
@@ -121,42 +119,13 @@ namespace Planner.Controllers
             var deleteweekDay = await weekDayRepository.DeleteAsync(editWeekDayRequest.Id);
             if (deleteweekDay != null)
             {
-                await patientRepository.DeletePatientsForDay(editWeekDayRequest.Id);
+                await services.DeletePatientsForDay(editWeekDayRequest.Id);
                 return RedirectToAction("List");
             }
             return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CloseDay(EditWeekDayRequest editWeekDayRequest)
-        {
-            var weekDay = new WeekDay
-            {
-                Id = editWeekDayRequest.Id,
-                Day = editWeekDayRequest.Day,
-                ArrivalDay = editWeekDayRequest.ArrivalDay,
-                ActivityDay = editWeekDayRequest.ActivityDay,
-                QuantityMbK = editWeekDayRequest.QuantityMbK,
-                RegisteredPatients = editWeekDayRequest.RegisteredPatients,
-                RemainingPatients = editWeekDayRequest.RemainingPatients
-            };
-            var patients = await patientRepository.GetPatientForDay(weekDay.Id);
-            weekDay.Patients = (ICollection<Patient>)patients;
-            CalculationMBK calculationMBK = new CalculationMBK();
-            weekDay.ActivityDay = calculationMBK.ActivityDay(weekDay.Day);
-            weekDay.QuantityMbK = calculationMBK.QuantityMbK(weekDay.ActivityDay);
-            foreach(var patient in weekDay.Patients)
-            {
-                patient.MBK = calculationMBK.PatientMbK(weekDay);
-            }
-            weekDay.RemainderMBK = calculationMBK.UpdRemainderMBK(weekDay);
-            var updateWeekDay = await weekDayServices.GetUpdMbK(weekDay);
-            if (updateWeekDay != null)
-            {
-                return RedirectToAction("List");
-            }
-            return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
-        }
+      
 
 
     }

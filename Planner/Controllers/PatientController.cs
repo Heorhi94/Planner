@@ -13,20 +13,23 @@ namespace Planner.Controllers
     {
         private readonly IPatientRepository patientRepository;
         private readonly IWeekDayRepository weekDayRepository;
+        private readonly IServices services;
+        private CalculationMBK calculationMBK = new CalculationMBK();
+        private Research research = new Research();
+        private Generator generator = new Generator();
 
-
-        public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository)
+        public PatientController(IPatientRepository patientRepository, IWeekDayRepository weekDayRepository, IServices servicesh)
         {
             this.patientRepository = patientRepository;
             this.weekDayRepository = weekDayRepository;
+            this.services = services;
         }
 
         [HttpGet]
         public IActionResult Add(DateTime registrationDay, Guid weekDayId, double quantityMBK)
         {
-            var calculationMBK = new CalculationMBK();
             List <string> list = new List<string>();
-            foreach (var research in calculationMBK.radiationResearch)
+            foreach (var research in research.radiationResearch)
             {
                 foreach (var minMax in research.Value)
                 {
@@ -62,12 +65,11 @@ namespace Planner.Controllers
                 Name = addPatientRequest.Name,
                 Surname = addPatientRequest.Surname,
                 Research = addPatientRequest.Research,
-                BirthDay = addPatientRequest.BirthDay
+                BirthDay = addPatientRequest.BirthDay,
             };
-            CalculationMBK calculationMBK = new CalculationMBK();
+
             var updWeekDay = await weekDayRepository.GetAsync(patient.WeekDayId);
-            var mbk = calculationMBK.PatientMbK(updWeekDay);
-            patient.MBK = mbk;
+            patient.MBK = calculationMBK.PatientMbK(patient);
             await patientRepository.AddAsync(patient);
             await weekDayRepository.UpdateAsync(updWeekDay);
            
@@ -117,7 +119,6 @@ namespace Planner.Controllers
             }
             else
             {
-
                 // Show failed
             }
 

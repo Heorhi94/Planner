@@ -32,7 +32,7 @@
 
         <div class="mb-3">
             <label class="form-label">Birth Day</label>
-            <input type="date" class="form-control" id="birthDay" asp-for="BirthDay" />
+            <input type="date" class="form-control" id="birthDay" value="@DateTime.Now.ToString("yyyy-MM-dd")" asp-for="BirthDay" />
         </div>
 
         <div class="mb-3">

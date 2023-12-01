@@ -75,7 +75,7 @@
 
 
 
- @model List<Planner.Models.Domain.WeekDay>
+@model List<Planner.Models.Domain.WeekDay>
 @using Microsoft.AspNetCore.Mvc.ViewFeatures
 
 
@@ -93,7 +93,7 @@
 <script>
     var days = @Html.Raw(Json.Serialize((Model.Select(w => w.Day.ToShortDateString()))));
     var activityDays = @Html.Raw(Json.Serialize((Model.Select(w => w.ActivityDay))));
-
+   // var countRessearch = @Html.Raw(Json.Serialize(Model.Select(x => x.NumberOfPatients)));
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',

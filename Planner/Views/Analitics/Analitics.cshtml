@@ -1,0 +1,80 @@
+﻿@model Planner.Models.ViewModels.AnaliticsRequest
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+
+
+@{
+    //ViewData["Title"] = "Home Page";
+   // Layout = null;
+}
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+
+
+
+<div class="bg-secondary bg-opacity-10 py-2">
+    <div class="container">
+        <h1>Analitics</h1>
+    </div>
+</div>
+
+<div class="container py-5">
+    <form method="post" style="display: flex; align-items: baseline; justify-content: space-between;">
+        <div class="mb-3" style="margin-right: 10px;">
+            <label class="form-label">Day</label>
+            <input type="text" name="startDay" value="@Model.StartDay.ToShortDateString()" asp-for="StartDay" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="margin-right: 10px;">
+            <label class="form-label">Day</label>
+            <input type="text" name="endDay" value="@Model.EndDay.ToShortDateString()" asp-for="EndDay" class="form-control" />
+        </div>
+
+        <div class="mb-3" style="margin-right: 10px;">
+            <label class="form-label">Research</label>
+            <select class="form-select" id="research" asp-for="Research" class="form-control">
+                <option value="">-- Select Research --</option>
+                @foreach (var researchName in Model.NameResearchList)
+                {
+                    <option value="@researchName">@researchName</option>
+                }
+            </select>
+        </div>
+
+        <div class="mb-3" style="margin-right: 10px;">
+            <button type="submit" class="btn btn-dark" id="submit-button">Display</button>
+        </div>
+    </form>
+</div>
+
+
+<div style="width: 80%; margin: auto;">
+    <canvas id="myChart"></canvas>
+</div>
+
+<script>
+    var days = @Html.Raw(Json.Serialize(Model.NameResearchList));
+    var researchCount = @Html.Raw(Json.Serialize(Model.CountResearch.Values));
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: days,
+            datasets: [{
+                label: 'Research Count',
+                data: researchCount,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

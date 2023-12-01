@@ -34,23 +34,6 @@ namespace Planner.Repositories
             return null;
         }
 
-
-        public async Task<IEnumerable<Patient>> DeletePatientsForDay(Guid Id)
-        {
-            var patientsForDay = await plannerDbContext.Patients
-                .Where(patient => patient.WeekDayId == Id)
-                .ToListAsync();
-            if (patientsForDay.Count > 0)
-            {
-                foreach (var patient in patientsForDay)
-                {
-                    plannerDbContext.Patients.Remove(patient);
-                }
-                return patientsForDay;
-            }
-            return null;
-        }
-
         public async Task<IEnumerable<Patient>> GetAllAsync(Guid Id)
         {
             return await plannerDbContext.Patients.ToListAsync();
@@ -59,12 +42,6 @@ namespace Planner.Repositories
         public async Task<Patient?> GetAsync(Guid id)
         {
             return await plannerDbContext.Patients.FirstOrDefaultAsync(x=>x.Id == id);
-        }
-
-        public async Task<IEnumerable<Patient>> GetPatientForDay(Guid Id)
-        {
-            var patientForDay = await plannerDbContext.Patients.Where(patients => patients.WeekDayId == Id).ToListAsync();
-            return patientForDay;
         }
 
         public async Task<Patient?> UpdateAsync(Patient patient)
