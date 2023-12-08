@@ -54,10 +54,10 @@ namespace Planner.Controllers
             weekDay.ActivityDay = generator.ActivityDay(addWeekDayRequest.Day);
             weekDay.QuantityMbK = generator.ValMbkForGenDay(weekDay.ActivityDay);
             weekDay.RemainderMBK = calculationMBK.RemainderMBK(weekDay);
+
             await weekDayRepository.AddAsync(weekDay);
             return RedirectToAction("List");
         }
-
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid weekDayId)
@@ -71,7 +71,7 @@ namespace Planner.Controllers
                     Id = weekDay.Id,
                     ArrivalDay = weekDay.ArrivalDay,
                     ActivityDay = weekDay.ActivityDay,
-                    QuantityMbK = weekDay.QuantityMbK,
+                    RemainderMBK = weekDay.RemainderMBK,
                     RegisteredPatients = weekDay.RegisteredPatients,
                     Day = weekDay.Day,
                 };
@@ -124,7 +124,35 @@ namespace Planner.Controllers
             }
             return RedirectToAction("Edit", new { id = editWeekDayRequest.Id });
         }
-
+        [HttpPost]   
+        public async Task<IActionResult> Calculated (EditWeekDayRequest editWeekDayRequest)
+        {
+            var weekDay = new WeekDay
+            {
+                Id = editWeekDayRequest.Id,
+                Day = editWeekDayRequest.Day,
+                ArrivalDay = editWeekDayRequest.ArrivalDay,
+                RegisteredPatients = editWeekDayRequest.RegisteredPatients,
+                RemainingPatients = editWeekDayRequest.RemainingPatients,
+            };
+            var patients = await services.GetPatientForDay(weekDay.Id);
+            weekDay.Patients = (ICollection<Patient>)patients;
+            weekDay.ActivityDay = generator.ActivityDay(weekDay.Day);
+            weekDay.QuantityMbK = generator.ValMbkForGenDay(weekDay.ActivityDay);
+            weekDay.RemainderMBK = calculationMBK.RemainderMBK(weekDay);
+            while(weekDay.RemainderMBK > 0)
+            {
+                foreach (var patient in weekDay.Patients)
+                {
+                    patient.MBK = calculationMBK.CalculatedResult(patient, weekDay);
+                    await patientRepository.UpdateAsync(patient);
+                    weekDay.RemainderMBK = calculationMBK.CalculatedRemainderMBK(weekDay);
+                }
+            }
+            await services.UpdateMBK(weekDay);
+            return RedirectToAction("Index", "Home");
+        }
+        
       
 
 

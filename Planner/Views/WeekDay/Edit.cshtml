@@ -24,8 +24,8 @@
                 <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")   />
             </div>
             <div class="mb-3">
-                <label class="form-label">Quantity MBK</label>
-                <input type="number" class="form-control" id="quantityMbk" asp-for="QuantityMbK" readonly />
+                <label class="form-label">Remainder MBK</label>
+                <input type="number" class="form-control" id="remainderMBK" asp-for="RemainderMBK" readonly />
             </div>
             <div class="mb-3">
                 <label class="form-label">Patients</label>
@@ -71,6 +71,14 @@
                         asp-action="Delete">
                         Delete
                     </button>
+                    <button type="submit" class="btn btn-danger ms-2"
+                       asp-area=""
+                       asp-controller="WeekDay"
+                       asp-action="Calculated">
+                            Calculated MBK
+                        
+                    </button>
+
                 </div>
             </div>
         </form>

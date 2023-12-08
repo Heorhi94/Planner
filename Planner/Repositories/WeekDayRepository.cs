@@ -59,7 +59,6 @@ namespace Planner.Repositories
             return await plannerDbContext.WeekDays.Include(x => x.Patients).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-       
 
         public async Task<WeekDay?> UpdateAsync(WeekDay weekDay)
         {
