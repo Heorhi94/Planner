@@ -6,7 +6,7 @@ namespace Planner.Repositories.Interface
     {
         Task<IEnumerable<WeekDay>> GetHistoryAsync();
         Task<IEnumerable<WeekDay>> GetUpdMbK(WeekDay weekDay);
-        Task<WeekDay> CalculatedResult (WeekDay weekDay);
+      //  Task<WeekDay> CalculatedResult (WeekDay weekDay);
         Task<IEnumerable<WeekDay>> CloseDay(WeekDay weekDay);
         Task<IEnumerable<Patient>> GetPatientForDay(Guid Id);
         Task<IEnumerable<Patient>> DeletePatientsForDay(Guid Id);

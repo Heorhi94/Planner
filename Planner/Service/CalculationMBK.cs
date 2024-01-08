@@ -14,13 +14,18 @@ namespace Planner.Service
 
             foreach (var res in research.nameResearch.Keys)
             {
-                if (res == patient.Research)
+                if(res == patient.Research)
                 {
-                    mbk = research.radiationResearch[res]["Min"];
+                    if(patient.MBK > research.radiationResearch[res]["Min"])
+                    {
+                        mbk = patient.MBK;
+                    }
+                    else
+                    {
+                        mbk = research.radiationResearch[res]["Min"];
+                    }
                 }
             }
-
-
             return mbk;
         }
         public double RemainderMBK(WeekDay weekDay)
@@ -30,7 +35,15 @@ namespace Planner.Service
             {
                 foreach (var name in weekDay.Patients)
                 {
-                    valueMBK += research.radiationResearch[name.Research]["Min"];
+                    if(name.MBK > research.radiationResearch[name.Research]["Min"])
+                    {
+                        valueMBK = name.MBK;
+                    }
+                    else
+                    {
+                        valueMBK += research.radiationResearch[name.Research]["Min"];
+
+                    }
                 }
                 return weekDay.QuantityMbK - valueMBK;
             }
@@ -74,56 +87,24 @@ namespace Planner.Service
             }
 
         }
-        /* public double CalculatedResult(Patient patient)
-         {
-             double result = 0;
-             if (weekDay.RemainderMBK != 0)
-             {
-                 var countResearcs = weekDay.Patients.Count;
-                 var remainder = weekDay.RemainderMBK / countResearcs;
-                 foreach (var people in weekDay.Patients)
-                 {
-                   //  result = people.MBK + remainder;
-                     foreach(var res in research.radiationResearch)
-                     {
-                         if(people.Research == res.Key)
-                         {
-                             result = people.MBK + remainder;
-                             weekDay.RemainderMBK -= remainder;
-                             if (result > res.Value["Max"])
-                             {
-                                 result = people.MBK - remainder;
-                                 return result;
-                             }
-                             return result;
-                         }
-                     }
-                 }
-             }
-             return result;
-         }*/
+       
         public double CalculatedResult(Patient patient, WeekDay weekDay)
         {
-            double result = 0;
-            double remainder = weekDay.RemainderMBK / weekDay.Patients.Count;  
+            double result = patient.MBK;
             foreach (var res in research.radiationResearch)
             {
                 if (patient.Research == res.Key)
                 {
-                    result = patient.MBK + remainder;
-                    weekDay.RemainderMBK -= remainder;
-                    if(weekDay.RemainderMBK < 0)
+                    while(weekDay.RemainderMBK > 0)
                     {
-                        weekDay.RemainderMBK += remainder;
-                        result = patient.MBK - remainder;
-                        return Math.Round(result, 1, MidpointRounding.AwayFromZero);
+                        if(result == res.Value["Max"])
+                        {
+                            result = res.Value["Max"];
+                            break;
+                        }
+                        --weekDay.RemainderMBK;
+                        result++;
                     }
-                    if (result > res.Value["Max"])
-                    {
-                        result = patient.MBK - remainder;
-                        return Math.Round(result, 1, MidpointRounding.AwayFromZero);
-                    }
-                    return Math.Round(result, 1, MidpointRounding.AwayFromZero);
                 }
             }
             return Math.Round(result, 1, MidpointRounding.AwayFromZero);

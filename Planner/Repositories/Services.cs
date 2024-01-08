@@ -16,9 +16,9 @@ namespace Planner.Repositories
             this.plannerDbContext = plannerDbContext;
         }
 
-        public async Task<WeekDay> CalculatedResult(WeekDay weekDay)
+      /*  public async Task<WeekDay> CalculatedResult(WeekDay weekDay)
         {
-           /* var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
+            var existingWeekDay = await plannerDbContext.WeekDays.FindAsync(weekDay.Id);
             if(existingWeekDay != null)
             {
                 foreach(var patient in existingWeekDay.Patients)
@@ -27,9 +27,9 @@ namespace Planner.Repositories
                 }
                 await plannerDbContext.SaveChangesAsync();
                 return existingWeekDay;
-            }*/
+            }
             return null;
-        }
+        }*/
 
         public Task<IEnumerable<WeekDay>> CloseDay(WeekDay weekDay)
         {

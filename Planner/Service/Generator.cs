@@ -22,19 +22,14 @@ namespace Planner.Service
             {"13", 378 },
             {"14", 293 }
         };
-        public DateTime ArrivalDay(DateTime date)
+        public DateTime ArrivalDay(int day,DateTime startDay)
         {
-            if (date != new DateTime(2023, 10, 3))
-            {
-                return date;
-            }
-            return date;
+            DateTime result = startDay.AddDays(-day);
+            return result;
         }
         public int ActivityDay(DateTime day)
         {
-            DateTime dayStart = new DateTime(2023, 10, 3);
-            DateTime targetDate = dayStart;
-
+            DateTime targetDate = new DateTime(2023, 10, 3);
             int numberOfDays = 0;
             int daysToAdd = 14;
             while (targetDate < day)
@@ -42,10 +37,9 @@ namespace Planner.Service
                 targetDate = targetDate.AddDays(1);
 
                 numberOfDays++;
-                if (numberOfDays > daysToAdd) // Zresetuj numberOfDays na 1 po znalezieniu co drugiego wtorku
+                if (numberOfDays > daysToAdd) 
                 {
                     numberOfDays = 1;
-                    //targetDate = dayStart.AddDays(daysToAdd);
                 }
             }
             return numberOfDays;

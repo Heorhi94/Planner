@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Home Page";
+   // int count = 1;
 }
 
 <div class="container col-xxl-8 px-4 py-5">
@@ -28,9 +29,23 @@
         transition: font-size 0.2s; 
     }
 
-        .no-underline-hover:hover {
-            font-size: 1.1em; 
-        }
+    .no-underline-hover:hover {
+        font-size: 1.1em; 
+    }
+
+    th{
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    td {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
 </style>
 
 <div class="container">
@@ -41,16 +56,18 @@
                 @foreach (var weekDay in Model)
                 {
                     <div class="col">
-                        <div class="mb-3 bg-light box-shadow">
-                            <h2 class="mb-2 small">Day: @weekDay.Day.ToShortDateString() </h2>
-                            <h2 class="mb-2 small">Activity Day : @weekDay.ActivityDay </h2>
-                            <h2 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h2>
-                            <h2 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h2>
+                        <div class="mb-3 box-shadow" style="background-color: #e9ecef;">
+                            <h3 class="mb-2 small">Day: @weekDay.Day.ToShortDateString() </h3>
+                            <h3 class="mb-2 small">Activity Day : @weekDay.ActivityDay </h3>
+                            <h3 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h3>
+                            <h3 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h3>
+                            <h3 class="mb-2 small">Arrival Day : @weekDay.ArrivalDay.ToShortDateString()</h3>
 
-                            <div class="container py-3">Patients
+                            <div class="container py-3 ps-0">Patients
                                 <table class="table">
-                                    <thead>
+                                    <thead> 
                                         <tr>
+                                            <th scope="col"><small>№</small></th>
                                             <th scope="col"><small>Name</small></th>
                                             <th scope="col"><small>Surname</small></th>
                                             <th scope="col"><small>Birth day</small></th>
@@ -60,11 +77,12 @@
                                     </thead>
                                     @if (weekDay.Patients != null)
                                     {
+                                        int count = 1;
                                         @foreach (var people in weekDay.Patients)
                                         {
                                             <tbody class="table-group-divider">
-                                               
                                                 <tr>
+                                                    <td><small>@count</small></td>
                                                     <td><small>@people.Name</small></td>
                                                     <td><small>@people.Surname</small></td>
                                                     <td><small>@people.BirthDay.ToShortDateString()</small></td>
@@ -72,6 +90,7 @@
                                                     <td><small>@people.MBK</small></td>
                                                 </tr>
                                             </tbody>
+                                                count++;
                                         }
                                     }
                                     else
@@ -82,7 +101,7 @@
                                 </table>
                             </div>
                             <div class="mb-1 small">
-                                <button type="submit" class="btn btn-dark">
+                                <button type="submit" class="btn btn-dark" style="font-size: 8px; padding: 5px 10px;">
                                     <a class="text-white no-underline-hover"
                                        asp-area=""
                                        asp-controller="Patient"
@@ -94,7 +113,7 @@
                                     </a>
                                 </button>
 
-                                <button type="submit" class="btn btn-danger ms-2">
+                                <button type="submit" class="btn btn-danger ms-2" style="font-size: 8px; padding: 5px 10px;">
                                 <a class="text-white no-underline-hover"
                                 asp-area=""
                                 asp-controller="WeekDay"

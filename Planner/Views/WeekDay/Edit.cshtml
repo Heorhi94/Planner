@@ -17,11 +17,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">Arrival Day</label>
-                <input type="date" class="form-control" id="arrivialDay" asp-for="ArrivalDay" />
+                <input type="date" class="form-control" id="arrivalDay" asp-for="ArrivalDay" />
             </div>
             <div class="mb-3">
                 <label class="form-label">Day</label>
-                <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")   />
+                <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")" readonly />
             </div>
             <div class="mb-3">
                 <label class="form-label">Remainder MBK</label>
@@ -51,7 +51,6 @@
                                         </th>
                                     </tr>
                                 </thread>
-                                <tbody>
                             </table>
                         }
                     }
@@ -88,4 +87,12 @@
         <p>Day is not exist</p>
     }
 </div>
+
+
+
+<style>
+    th{
+        width: 100px;
+    }
+</style>
 

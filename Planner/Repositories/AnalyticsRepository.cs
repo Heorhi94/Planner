@@ -6,11 +6,11 @@ using Planner.Repositories.Interface;
 
 namespace Planner.Repositories
 {
-    public class AnaliticsRepository : IAnaliticsRepository
+    public class AnalyticsRepository : IAnalyticsRepository
     {
         private readonly PlannerDbContext plannerDbContext;
 
-        public AnaliticsRepository(PlannerDbContext plannerDbContext)
+        public AnalyticsRepository(PlannerDbContext plannerDbContext)
         {
             this.plannerDbContext = plannerDbContext;
         }
@@ -32,5 +32,7 @@ namespace Planner.Repositories
         {
             return await plannerDbContext.Patients.ToListAsync();
         }
+
+     
     }
 }

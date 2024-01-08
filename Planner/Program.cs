@@ -21,7 +21,7 @@ builder.Services.AddDbContext<PlannerDbContext>(options =>
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IWeekDayRepository, WeekDayRepository>();
 builder.Services.AddScoped<IServices, Services>();
-builder.Services.AddScoped<IAnaliticsRepository, AnaliticsRepository>();
+builder.Services.AddScoped<IAnalyticsRepository, AnalyticsRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

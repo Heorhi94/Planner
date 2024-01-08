@@ -2,7 +2,7 @@
 
 namespace Planner.Models.ViewModels
 {
-    public class AnaliticsRequest
+    public class AnalyticsRequest
     {
         public DateTime StartDay { get; set; }
         public DateTime EndDay { get; set; }

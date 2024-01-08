@@ -31,13 +31,13 @@
                 @foreach (var weekDay in Model)
                 {
                     <div class="col">
-                        <div class="mb-5 bg-light box-shadow">
+                        <div class="box-shadow" style="background-color: #e9ecef;">
                             <h2 class="mb-2 small">Day: @weekDay.Day.ToShortDateString() </h2>
                             <h2 class="mb-2 small">Activity Day : @weekDay.ActivityDay </h2>
                             <h2 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h2>
                             <h2 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h2>
 
-                            <div class="container py-5">
+                            <div class="container ps-0">
                                 Patients
                                 @if (weekDay.Patients != null)
                                 {
@@ -50,7 +50,6 @@
                                                     <th><small>@people.Surname</small></th>
                                                     <th><small>@people.BirthDay</small></th>
                                                     <th><small>@people.Research</small></th>
-
                                                 </tr>
                                             </thread>
                                         </table>
@@ -70,3 +69,20 @@
         </div>
     </div>
 </div>
+
+
+<style>
+    th {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    td {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    body {
+        background-color: #f8f9fa;
+    }
+</style>
