@@ -9,6 +9,6 @@ namespace Planner.Repositories.Interface
         Task<Patient> AddAsync(Patient patient);
         Task<Patient?> UpdateAsync(Patient patient);
         Task<Patient?> DeleteAsync(Guid id);
-
+        
     }
 }

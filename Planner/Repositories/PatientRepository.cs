@@ -44,6 +44,8 @@ namespace Planner.Repositories
             return await plannerDbContext.Patients.FirstOrDefaultAsync(x=>x.Id == id);
         }
 
+
+
         public async Task<Patient?> UpdateAsync(Patient patient)
         {
             var existingPatient = await plannerDbContext.Patients.FindAsync(patient.Id);

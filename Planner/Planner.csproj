@@ -14,4 +14,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\image\add.png" />
+  </ItemGroup>
+
 </Project>

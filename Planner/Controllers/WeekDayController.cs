@@ -1,6 +1,5 @@
 ﻿using Azure;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Planner.Models.Domain;
 using Planner.Models.ViewModels;
 using Planner.Repositories.Interface;
@@ -149,8 +148,34 @@ namespace Planner.Controllers
             await services.UpdateMBK(weekDay);
             return RedirectToAction("List");
         }
-        
-      
+
+
+        [HttpPost]
+        public IActionResult UpdateChart(DateTime selectedDate, string selectedResearch)
+        {
+            // Здесь вы можете использовать выбранную дату и исследование для получения новых данных для графика
+            // Например, вы можете использовать ваш репозиторий для получения данных
+            var newDataForChart = GetDataForChart(selectedDate, selectedResearch);
+
+            // Верните данные в формате JSON
+            return Json(newDataForChart);
+        }
+
+        private object GetDataForChart(DateTime selectedDate, string selectedResearch)
+        {
+            // Здесь должна быть логика для получения новых данных для графика на основе выбранной даты и исследования
+            // Например, вы можете использовать ваш сервис или репозиторий для получения этих данных
+
+            // В этом примере я просто возвращаю случайные данные для иллюстрации
+            var random = new Random();
+            var newData = new List<int>();
+            for (int i = 0; i < 7; i++)
+            {
+                newData.Add(random.Next(10, 100)); // Просто случайные данные
+            }
+
+            return new { newData };
+        }
 
 
     }

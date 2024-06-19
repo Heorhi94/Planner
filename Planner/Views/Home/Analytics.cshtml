@@ -1,4 +1,4 @@
-﻿
+﻿@*
 
 
 
@@ -21,6 +21,50 @@
     var days = @Html.Raw(Json.Serialize((Model.Select(w => w.Day.ToShortDateString()))));
     var activityDays = @Html.Raw(Json.Serialize((Model.Select(w => w.ActivityDay))));
    // var countRessearch = @Html.Raw(Json.Serialize(Model.Select(x => x.NumberOfPatients)));
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: days,
+            datasets: [{
+                label: 'Activity Days',
+                data: activityDays,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+*@
+
+@model List<Planner.Models.Domain.WeekDay>
+@using Microsoft.AspNetCore.Mvc.ViewFeatures
+
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = null;
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+
+<div style="width: 80%; margin: auto;">
+    <canvas id="myChart"></canvas>
+</div>
+
+<button hx-post="@Url.Action("UpdateChart", "WeekDayController")" hx-target="#myChart">Update Chart</button>
+
+<script>
+    var days = @Html.Raw(Json.Serialize(Model.Select(w => w.Day.ToShortDateString())));
+    var activityDays = @Html.Raw(Json.Serialize(Model.Select(w => w.ActivityDay)));
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'bar',

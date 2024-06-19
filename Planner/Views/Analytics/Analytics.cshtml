@@ -31,7 +31,7 @@
             <input type="text" name="endDay" value="@Model.EndDay.ToShortDateString()" asp-for="EndDay" class="form-control" />
         </div>
 
-        <div class="mb-3" style="margin-right: 10px;">
+      @*  <div class="mb-3" style="margin-right: 10px;">
             <label class="form-label">Research</label>
             <select class="form-select" id="research" asp-for="Research" class="form-control">
                 <option value="">-- Select Research --</option>
@@ -40,7 +40,18 @@
                     <option value="@researchName">@researchName</option>
                 }
             </select>
+        </div>*@
+        <div class="mb-3" style="margin-right: 10px;">
+            <label class="form-label">Research</label>
+            <select class="form-select" id="research" asp-for="Research" class="form-control" hx-post="@Url.Action("UpdateChart", "AnaliticsController")" hx-target="#myChart" hx-swap="innerHTML">
+                <option value="">-- Select Research --</option>
+                @foreach (var researchName in Model.NameResearchList)
+                {
+                    <option value="@researchName">@researchName</option>
+                }
+            </select>
         </div>
+
 
         <div class="mb-3" style="margin-right: 10px;">
             <button type="submit" class="btn btn-dark" id="submit-button">Display</button>
@@ -54,6 +65,34 @@
 </div>
 
 <script>
+    function updateChart() {
+        var selectedResearch = document.getElementById('research').value; // Получаем выбранное исследование
+        var startDay = document.getElementById('startDay').value; // Получаем начальную дату
+        var endDay = document.getElementById('endDay').value; // Получаем конечную дату
+
+        // Отправляем POST-запрос на сервер с выбранным исследованием, начальной и конечной датами
+        fetch('@Url.Action("UpdateChart", "Analytics")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                StartDay: startDay,
+                EndDay: endDay,
+                Research: selectedResearch
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Обновляем данные на графике
+                myChart.data.datasets[0].data = data;
+                myChart.update();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
     var days = @Html.Raw(Json.Serialize(Model.NameResearchList));
     var researchCount = @Html.Raw(Json.Serialize(Model.CountResearch.Values));
     var ctx = document.getElementById('myChart').getContext('2d');

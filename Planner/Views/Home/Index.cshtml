@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Home Page";
-   // int count = 1;
 }
 
 <div class="container col-xxl-8 px-4 py-5">
@@ -22,6 +21,9 @@
         </div>
     </div>
 </div>
+
+
+   
 
 <style>
     .no-underline-hover {
@@ -44,11 +46,93 @@
     }
 
     body {
-        background-color: #f8f9fa;
+        background: linear-gradient(to bottom, #f0f2f5, #9D8D8F, #e6e9ed);
     }
+
+
+    .containerEmpty {
+        display: flex;
+        justify-content: left;
+        align-items: flex-start;
+        padding: 50px;
+    }
+
+    .containerBox{
+        border: 1px solid #000;
+        width: 420px;
+        height: auto;
+
+    }
+
+    .box {
+        border: 1px solid #000;
+        width: 200px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    .addButton {
+        font-size: 2rem;
+        border: none;
+        background: none;
+        cursor: pointer;
+        color: #000;
+        transition: transform 0.3s ease;
+    }
+
+        .addButton:hover {
+            transform: scale(1.2);
+        }
+
+    .p {
+        margin-bottom: 15px;
+    }
+
+    td{
+        font-size: 16px;
+    }
+
+    /* Общие стили */
+    .scroll-container {
+        overflow-y: auto; 
+        max-height: 400px; 
+       
+    }
+
+        /* Стилизация полосы скроллбара */
+        .scroll-container::-webkit-scrollbar {
+            width: 5px; /* Ширина скроллбара */
+        }
+
+        /* Стилизация трека скроллбара (основного блока) */
+        .scroll-container::-webkit-scrollbar-track {
+           
+            border-radius: 5px; /* Скругление углов трека */
+        }
+
+        /* Стилизация полосы скроллбара (ползунка) */
+        .scroll-container::-webkit-scrollbar-thumb {
+            background-color: #888; /* Цвет ползунка */
+            border-radius: 10px; /* Скругление углов ползунка */
+        }
+
+        /* Изменение цвета ползунка при наведении */
+        .scroll-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+
+
 </style>
 
+
 <div class="container">
+    <div class="containerBox">
     <div class="row justify-content-center">
         <div class="row">
             @if (Model != null && Model.Any())
@@ -56,23 +140,23 @@
                 @foreach (var weekDay in Model)
                 {
                     <div class="col">
-                        <div class="mb-3 box-shadow" style="background-color: #e9ecef;">
-                            <h3 class="mb-2 small">Day: @weekDay.Day.ToShortDateString() </h3>
-                            <h3 class="mb-2 small">Activity Day : @weekDay.ActivityDay </h3>
-                            <h3 class="mb-2 small">Quantity MBK : @weekDay.QuantityMbK </h3>
-                            <h3 class="mb-2 small">Remainder MBK : @weekDay.RemainderMBK </h3>
-                            <h3 class="mb-2 small">Arrival Day : @weekDay.ArrivalDay.ToShortDateString()</h3>
-
+                        <div class="mb-3 box-shadow" >
+                            <h3 class="mb-2 ">Day: @weekDay.Day.ToShortDateString() </h3>
+                            <h3 class="mb-2">Activity Day : @weekDay.ActivityDay </h3>
+                            <h3 class="mb-2 ">Quantity MBK : @weekDay.QuantityMbK </h3>
+                            <h3 class="mb-2 ">Remainder MBK : @weekDay.RemainderMBK </h3>
+                            <h3 class="mb-2 ">Arrival Day : @weekDay.ArrivalDay.ToShortDateString()</h3>
+                                <div class="scroll-container">
                             <div class="container py-3 ps-0">Patients
                                 <table class="table">
                                     <thead> 
                                         <tr>
-                                            <th scope="col"><small>№</small></th>
-                                            <th scope="col"><small>Name</small></th>
-                                            <th scope="col"><small>Surname</small></th>
-                                            <th scope="col"><small>Birth day</small></th>
-                                            <th scope="col"><small>Research</small></th>
-                                            <th scope="col"><small>MBK</small></th>
+                                            <th scope="col">№</th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Surname</th>
+                                            <th scope="col">Birth day</th>
+                                            <th scope="col">Research</th>
+                                            <th scope="col">MBK</th>
                                         </tr>
                                     </thead>
                                     @if (weekDay.Patients != null)
@@ -82,12 +166,12 @@
                                         {
                                             <tbody class="table-group-divider">
                                                 <tr>
-                                                    <td><small>@count</small></td>
-                                                    <td><small>@people.Name</small></td>
-                                                    <td><small>@people.Surname</small></td>
-                                                    <td><small>@people.BirthDay.ToShortDateString()</small></td>
-                                                    <td><small>@people.Research</small></td>
-                                                    <td><small>@people.MBK</small></td>
+                                                    <td>@count</td>
+                                                    <td>@people.Name</td>
+                                                    <td>@people.Surname</td>
+                                                    <td>@people.BirthDay.ToShortDateString()</td>
+                                                    <td>@people.Research</td>
+                                                    <td>@people.MBK</td>
                                                 </tr>
                                             </tbody>
                                                 count++;
@@ -100,8 +184,8 @@
                                             
                                 </table>
                             </div>
-                            <div class="mb-1 small">
-                                <button type="submit" class="btn btn-dark" style="font-size: 8px; padding: 5px 10px;">
+                            <div class="mb-1">
+                                <button type="submit" class="btn btn-dark" style="font-size: 12px; padding: 5px 10px;">
                                     <a class="text-white no-underline-hover"
                                        asp-area=""
                                        asp-controller="Patient"
@@ -113,7 +197,7 @@
                                     </a>
                                 </button>
 
-                                <button type="submit" class="btn btn-danger ms-2" style="font-size: 8px; padding: 5px 10px;">
+                                <button type="submit" class="btn btn-danger ms-2" style="font-size: 12px; padding: 5px 10px;">
                                 <a class="text-white no-underline-hover"
                                 asp-area=""
                                 asp-controller="WeekDay"
@@ -124,10 +208,27 @@
                                 </a>
                                 </button>
                             </div>
+                                </div>
                         </div>
                     </div>
                 }
             }
         </div>
     </div>
+    </div>
 </div>
+
+<div class="containerEmpty">
+    <div class="box">
+        <p class="p">Добавить</p>
+        <button class="addButton">
+            <a asp-area=""
+               asp-controller="WeekDay"
+               asp-action="Add">
+                <img src="/image/add.png" />
+            </a>
+
+        </button>
+    </div>
+</div>
+
