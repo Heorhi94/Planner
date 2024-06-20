@@ -2,25 +2,9 @@
 
 @{
     ViewData["Title"] = "Home Page";
+   
 }
 
-<div class="container col-xxl-8 px-4 py-5">
-    <div class="row align-items-center g-5 ry-5">
-        <div class="col-12 col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3">
-                Laboratorium Radionuclids
-            </h1>
-            <p class="lead">
-                Registering patients
-            </p>
-        </div>
-        <div class="col-12 col-lg-6">
-            <img src="https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=600"
-                 alt="Week Day - Laboratorium radiations"
-                 class="d-block mx-lg-auto img-fluid" width="300" />
-        </div>
-    </div>
-</div>
 
 <style>
     .containerMain {
@@ -42,21 +26,20 @@
     th, td {
         padding: 5px;
         font-size: 12px;
-        
     }
 
-    .patientInfo{
+    .patientInfo {
         transition: transform 0.3s ease;
     }
 
-    .patientInfo:hover{
+        .patientInfo:hover {
             transform: scale(1.1);
             background: #9D8D8F;
             cursor: pointer;
         }
 
     body {
-        background: linear-gradient(to bottom, #f0f2f5, #9D8D8F, #e6e9ed);
+        background: linear-gradient(to left, #f0f2f5, #e6e9ed, #9D8D8F );
     }
 
 
@@ -126,6 +109,29 @@
             }
 </style>
 
+
+
+
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row align-items-center g-5 ry-5">
+        <div class="col-12 col-lg-6">
+            <h1 class="display-5 fw-bold lh-1 mb-3">
+                Laboratorium Radionuclids
+            </h1>
+            <p class="lead">
+                Registering patients
+            </p>
+        </div>
+        <div class="col-12 col-lg-6">
+            <img src="https://images.pexels.com/photos/1193743/pexels-photo-1193743.jpeg?auto=compress&cs=tinysrgb&w=600"
+                 alt="Week Day - Laboratorium radiations"
+                 class="d-block mx-lg-auto img-fluid" width="300" />
+        </div>
+    </div>
+</div>
+
+
+
 <div class="containerMain">
     <div class="containerEmpty">
         <div class="box">
@@ -146,7 +152,12 @@
             <div class="containerBox">
                 <div class="row justify-content-center">
                     <div class="mb-3 box-shadow">
-                        <h3 style="text-align: center; color: #dc3545" class="mb-2 ps-2"> @weekDay.Day.ToShortDateString()</h3>
+                        <h3 style="text-align: center; color: #dc3545" class="mb-2 ps-2">
+                            @{
+                                var dayOfWeek = weekDay.Day.ToString("dddd");
+                                dayOfWeek = char.ToUpper(dayOfWeek[0]) + dayOfWeek.Substring(1);
+                            }
+                            @dayOfWeek:  @weekDay.Day.ToShortDateString()</h3>
                         <h3 style="font-size: 16px" class="mb-2 ps-3">Activity Day: @weekDay.ActivityDay</h3>
                         <h3 style="font-size: 16px" class="mb-2 ps-3">Quantity MBK: @weekDay.QuantityMbK</h3>
                         <h3 style="font-size: 16px" class="mb-2 ps-3">Remainder MBK: @weekDay.RemainderMBK</h3>
@@ -173,6 +184,7 @@
                                         {
                                             <tbody id="editPatients" class="table-group-divider">
                                                 <tr class="patientInfo" data-weekday-id="@weekDay.Id" data-registration-day="@weekDay.Day.ToString("yyyy-MM-dd")" data-patient-id="@people.Id">
+
                                                     <td>@count</td>
                                                     <td>@people.Name</td>
                                                     <td>@people.Surname</td>
@@ -224,7 +236,7 @@
 
 
 
-@*<script>
+<script>
     document.querySelectorAll(".patientInfo").forEach(function (row) {
         row.addEventListener("click", function (event) {
             // Получаем значения из атрибутов данных
@@ -232,9 +244,17 @@
             var registrationDay = row.getAttribute("data-registration-day");
             var patientId = row.getAttribute("data-patient-id");
 
-            // Переход на другую страницу
-            window.location.href = "@Url.Action("Patient", "Edit")" + "?weekDayId=" + weekDayId + "&day=" + registrationDay + "&patientId=" + patientId;
+            // Формируем URL для перехода
+            var url = `/Patient/Edit?weekDayId=${encodeURIComponent(weekDayId)}&day=${encodeURIComponent(registrationDay)}&patientId=${encodeURIComponent(patientId)}`;
+
+            // Переходим на другую страницу
+            window.location.href = url;
         });
     });
-</script>*@
+
+</script>
+
+
+
+
 

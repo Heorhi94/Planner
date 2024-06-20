@@ -1,28 +1,70 @@
 ﻿@model Planner.Models.ViewModels.AddWeekDayRequest
 @{
+    var occupiedDates = ViewBag.OccupiedDates as List<string>;
 }
 
-<div class="bg-secondary bg-opacity-10 py-2">
-    <div class="container">
-        <h1>Add New Day</h1>
-    </div>
-</div>
+<h1>Add New Day</h1>
 
 <div class="container py-5">
-    <form method="post">
+    <form method="post" class="form-small">
         <div class="mb-3">
             <label class="form-label">Day</label>
-            <input type="date" class="form-control" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")"  />
+            <input type="date" class="form-control date-input-small" id="day" asp-for="Day" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
         </div>
-        
 
         <div class="mb-3">
-            <button type="submit" class="btn btn-dark">Submit</button>
+            <button type="submit" class="btn btn-dark">Add day</button>
         </div>
-
     </form>
-
 </div>
 
+<style>
+    body {
+        background: linear-gradient(to left, #f0f2f5, #e6e9ed, #9D8D8F );
+    }
 
+    label {
+        font-size: 32px;
+    }
 
+    .form-small {
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    .date-input-small {
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    .date-input-small:hover {
+         transform: scale(1.1);
+         background: #9D8D8F
+    }
+
+  
+    button.btn.btn-dark {
+        width: 100%;
+        transition: transform 0.3s ease;
+    }
+
+    button.btn.btn-dark:hover {
+        transform: scale(1.1);
+    }
+
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var occupiedDates = @Html.Raw(Json.Serialize(occupiedDates));
+        var dateInput = document.getElementById("day");
+
+        dateInput.addEventListener("input", function () {
+            var selectedDate = dateInput.value;
+            if (occupiedDates.includes(selectedDate)) {
+                alert("Эта дата уже занята. Пожалуйста, выберите другую дату.");
+                dateInput.value = "";
+            }
+        });
+    });
+</script>

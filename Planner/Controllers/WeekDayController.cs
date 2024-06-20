@@ -29,10 +29,15 @@ namespace Planner.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            var occupiedDates = await weekDayRepository.GetAllAsync();
+            var dates = occupiedDates.Select(d => d.Day.ToString("yyyy-MM-dd")).ToList();
+
+            ViewBag.OccupiedDates = dates;
             return View();
         }
+
 
         [HttpPost]
         [ActionName("Add")]

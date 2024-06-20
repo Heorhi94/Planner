@@ -11,7 +11,7 @@
 <div class="container py-5">
     <form method="post">
         <div class="mb-3">
-            <input type="text" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
+            <input type="hidden" name="patientWeekDayId" value="@Model.PatientWeekDayId" asp-for="PatientWeekDayId" readonly/> 
         </div>
         <div class="mb-3">
             <input type="text" name="quantityMBK" value="@Model.QuantityMBK" asp-for="QuantityMBK" readonly />
@@ -46,7 +46,7 @@
             </select>
         </div>
         <div class="mb-3">
-            <button type="submit" class="btn btn-dark" id="submit-button">Submit</button>
+            <button type="submit" class="btn btn-dark" id="submit-button">Add</button>
         </div>
         <div id="message-container" style="display:none;"></div>
 
