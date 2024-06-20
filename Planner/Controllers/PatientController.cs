@@ -5,6 +5,7 @@ using Planner.Models.Domain;
 using Planner.Models.ViewModels;
 using Planner.Repositories.Interface;
 using Planner.Service;
+using System.Collections.Generic;
 
 namespace Planner.Controllers
 {
@@ -33,7 +34,7 @@ namespace Planner.Controllers
                     if (minMax.Key == "Min")
                     {
                         var minValue = minMax.Value;
-                        if (quantityMBK > minValue)
+                        if (quantityMBK >= minValue)
                         {
                             list.Add(research.Key.ToString());
                         }
@@ -77,6 +78,7 @@ namespace Planner.Controllers
         public async Task<IActionResult> Edit(Guid weekDayId)
         {
             var patient = await patientRepository.GetAsync(weekDayId);
+            List<string> list = new List<string>();
 
             if (patient != null)
             {
@@ -87,7 +89,8 @@ namespace Planner.Controllers
                     Surname = patient.Surname,
                     RegistrationDay = patient.RegistrationDay,
                     Research = patient.Research,
-                    PatientWeekDayId = patient.WeekDayId
+                    PatientWeekDayId = patient.WeekDayId,
+                    NameResearchList = list,
                 };
 
                 return View(editPatientRequest);

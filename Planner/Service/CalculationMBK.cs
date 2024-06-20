@@ -102,7 +102,7 @@ namespace Planner.Service
                             result = res.Value["Max"];
                             break;
                         }
-                        --weekDay.RemainderMBK;
+                        weekDay.RemainderMBK--;
                         result++;
                     }
                 }
