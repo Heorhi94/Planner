@@ -144,12 +144,17 @@ namespace Planner.Controllers
             weekDay.ActivityDay = generator.ActivityDay(weekDay.Day);
             weekDay.QuantityMbK = generator.ValMbkForGenDay(weekDay.ActivityDay);
             weekDay.RemainderMBK = calculationMBK.RemainderMBK(weekDay);
-            foreach (var patient in weekDay.Patients)
+           
+            weekDay.Patients = calculationMBK.CalculatedResult(weekDay);
+
+                weekDay.RemainderMBK = calculationMBK.CalculatedRemainderMBK(weekDay);
+            
+           /* foreach (var patient in weekDay.Patients)
             {
                 patient.MBK = calculationMBK.CalculatedResult(patient, weekDay);
                 await patientRepository.UpdateAsync(patient);
                 weekDay.RemainderMBK = calculationMBK.CalculatedRemainderMBK(weekDay);
-            }
+            }*/
             await services.UpdateMBK(weekDay);
             return RedirectToAction("List");
         }

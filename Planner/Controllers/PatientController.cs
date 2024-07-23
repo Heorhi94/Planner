@@ -78,10 +78,9 @@ namespace Planner.Controllers
         public async Task<IActionResult> Edit(Guid weekDayId)
         {
             var patient = await patientRepository.GetAsync(weekDayId);
-            List<string> list = new List<string>();
-
             if (patient != null)
             {
+               
                 var editPatientRequest = new EditPatientRequest
                 {
                     Id = patient.Id,
@@ -90,7 +89,6 @@ namespace Planner.Controllers
                     RegistrationDay = patient.RegistrationDay,
                     Research = patient.Research,
                     PatientWeekDayId = patient.WeekDayId,
-                    NameResearchList = list,
                 };
 
                 return View(editPatientRequest);

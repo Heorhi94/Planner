@@ -110,7 +110,7 @@
 </style>
 
 
-
+@*/***********************  Form for add button     ************************/*@
 
 <div class="container col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-5 ry-5">
@@ -131,11 +131,11 @@
 </div>
 
 
-
+@********************************************   Form for main window    *******************8*@
 <div class="containerMain">
     <div class="containerEmpty">
         <div class="box">
-            <p class="p">Добавить</p>
+            <p class="p">Добавить день</p>
             <button class="addButton">
                 <a asp-area=""
                    asp-controller="WeekDay"
@@ -183,7 +183,8 @@
                                         @foreach (var people in weekDay.Patients)
                                         {
                                             <tbody id="editPatients" class="table-group-divider">
-                                                <tr class="patientInfo" data-weekday-id="@weekDay.Id" data-registration-day="@weekDay.Day.ToString("yyyy-MM-dd")" data-patient-id="@people.Id">
+                                                <tr class="patientInfo" data-weekday-id="@weekDay.Id" data-registration-day="@weekDay.Day.ToString("dd.mm.yyyy")" data-patient-id="@people.Id"
+                                                data-researches ="@people.Research">
 
                                                     <td>@count</td>
                                                     <td>@people.Name</td>
@@ -205,24 +206,32 @@
                             <div class="mb-1 ps-2">
                                 <button type="submit" class="btn btn-dark" style="font-size: 12px; padding: 5px 10px;">
                                     <a class="text-white no-underline-hover"
-                               asp-area=""
-                               asp-controller="Patient"
-                               asp-action="Add"
-                               asp-route-weekDayId="@weekDay.Id"
-                               asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")"
-                               asp-route-quantityMBK="@weekDay.RemainderMBK">
-                                        Add Patient
+                                       asp-area=""
+                                       asp-controller="Patient"
+                                       asp-action="Add"
+                                       asp-route-weekDayId="@weekDay.Id"
+                                       asp-route-registrationDay="@weekDay.Day.ToString("yyyy-MM-dd")"
+                                       asp-route-quantityMBK="@weekDay.RemainderMBK">
+                                                Add Patient
                                     </a>
                                 </button>
-                                <button type="submit" class="btn btn-danger ms-2" style="font-size: 12px; padding: 5px 10px;">
+                                <button type="submit" class="btn btn-dark" style="font-size: 12px; padding: 5px 10px;"
+                                    asp-area=""
+                                    asp-controller="WeekDay"
+                                    asp-action="Calculated">
+                                        Calculated MBK
+                                </button>
+
+                                <button type="submit" class="btn btn-danger ms-2" id="calculated" style="font-size: 12px; padding: 5px 10px;">
                                     <a class="text-white no-underline-hover"
-                               asp-area=""
-                               asp-controller="WeekDay"
-                               asp-action="Edit"
-                               asp-route-weekDayId="@weekDay.Id">
-                                        Edit Day
+                                       asp-area=""
+                                       asp-controller="WeekDay"
+                                       asp-action="Edit"
+                                       asp-route-weekDayId="@weekDay.Id">
+                                                Edit Day
                                     </a>
                                 </button>
+                              
                             </div>
                         </div>
                     </div>
@@ -240,12 +249,37 @@
     document.querySelectorAll(".patientInfo").forEach(function (row) {
         row.addEventListener("click", function (event) {
             // Получаем значения из атрибутов данных
-            var weekDayId = row.getAttribute("data-weekday-id");
+            var weekDayId = row.getAttribute("data-patient-id");
             var registrationDay = row.getAttribute("data-registration-day");
-            var patientId = row.getAttribute("data-patient-id");
+            var reseaerches = row.getAttribute("data-researches");
+          //  var patientId = row.getAttribute("data-patient-id");
+
+          //  var weekDayId = row.getAttribute("data-weekday-id");
+          //  var registrationDay = row.getAttribute("data-registration-day");
+          //  var patientId = row.getAttribute("data-patient-id");
 
             // Формируем URL для перехода
-            var url = `/Patient/Edit?weekDayId=${encodeURIComponent(weekDayId)}&day=${encodeURIComponent(registrationDay)}&patientId=${encodeURIComponent(patientId)}`;
+            var url = `/Patient/Edit?weekDayId=${encodeURIComponent(weekDayId)}&day=${encodeURIComponent(registrationDay)}`;
+
+            // Переходим на другую страницу
+            window.location.href = url;
+        });
+    });
+
+    document.getElementById("calculated").forEach(function (row) {
+        row.addEventListener("click", function (event) {
+            // Получаем значения из атрибутов данных
+            var weekDayId = row.getAttribute("data-patient-id");
+          //  var registrationDay = row.getAttribute("data-registration-day");
+          //  var reseaerches = row.getAttribute("data-researches");
+            //  var patientId = row.getAttribute("data-patient-id");
+
+            //  var weekDayId = row.getAttribute("data-weekday-id");
+            //  var registrationDay = row.getAttribute("data-registration-day");
+            //  var patientId = row.getAttribute("data-patient-id");
+
+            // Формируем URL для перехода
+            var url = `/Patient/Edit?weekDayId=${encodeURIComponent(weekDayId)}&day=${encodeURIComponent(registrationDay)}`;
 
             // Переходим на другую страницу
             window.location.href = url;
